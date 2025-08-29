@@ -17,7 +17,9 @@ const page = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ links: linksArray }),
-            })
+            }).then(res => res.json());
+
+            console.log('Response:', res);
         }
         catch(err){
             console.error('Error submitting links:', err);

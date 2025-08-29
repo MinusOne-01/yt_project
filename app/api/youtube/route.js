@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { XMLParser } from "fast-xml-parser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
 
 export async function GET(req) {
-   try{
-    
-     console.log("Links: ", req.links); 
+   try{  
+     
     // video ID 
     const channelId = "UCsBjURrPoezykLs9EqgamOA";
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
@@ -48,4 +50,35 @@ export async function GET(req) {
       return NextResponse.json({ error: err.message }, { status: 500 });
    } 
 
+}
+
+export async function POST(req) {
+   try{
+      
+      const session = await getServerSession(authOptions);
+      if(!session){
+         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+      const { links } = await req.json();
+      console.log("Links: ", links); 
+
+      const user = await prisma.user.findUnique({
+         where: { email: session.user.email },
+      });
+
+      if(!user){
+         return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+
+      const created = await prisma.link.createMany({
+         data: links.map((url) => ({ url, userId: user.id })),
+         skipDuplicates: true,
+      });
+
+      return NextResponse.json({ created } );
+
+   }
+   catch(err){
+      return NextResponse.json({ error: err.message }, { status: 500 });
+   }
 }
