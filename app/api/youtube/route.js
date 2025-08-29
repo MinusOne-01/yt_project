@@ -4,6 +4,7 @@ import { XMLParser } from "fast-xml-parser";
 export async function GET(req) {
    try{
     
+     console.log("Links: ", req.links); 
     // video ID 
     const channelId = "UCsBjURrPoezykLs9EqgamOA";
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
