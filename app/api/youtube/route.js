@@ -55,13 +55,15 @@ export async function GET(req) {
 export async function POST(req) {
    try{
       
+      // auth check
       const session = await getServerSession(authOptions);
       if(!session){
          return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
       const { links } = await req.json();
       console.log("Links: ", links); 
-
+      
+      // fetch user from db
       const user = await prisma.user.findUnique({
          where: { email: session.user.email },
       });
@@ -69,7 +71,8 @@ export async function POST(req) {
       if(!user){
          return NextResponse.json({ error: 'User not found' }, { status: 404 });
       }
-
+      
+      // store links in db 
       const created = await prisma.link.createMany({
          data: links.map((url) => ({ url, userId: user.id })),
          skipDuplicates: true,
