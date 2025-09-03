@@ -1,5 +1,4 @@
-
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
 
 // Component to render video player
@@ -7,8 +6,10 @@ function VideoEmbed({ id, title, thumbnail }) {
   const [play, setPlay] = useState(false);
 
   return (
-    // rendering thumbnail until play is true
-    <div className="relative aspect-video cursor-pointer" onClick={() => setPlay(true)}>
+    <div
+      className="relative aspect-video cursor-pointer"
+      onClick={() => setPlay(true)}
+    >
       {play ? (
         <iframe
           className="w-full h-full rounded-lg"
@@ -19,10 +20,12 @@ function VideoEmbed({ id, title, thumbnail }) {
         ></iframe>
       ) : (
         <>
-          <img src={thumbnail} alt={title} className="w-full h-full object-cover rounded-lg" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            
-          </div>
+          <img
+            src={thumbnail}
+            alt={title}
+            className="w-full h-full object-cover rounded-lg"
+          />
+          <div className="absolute inset-0 flex items-center justify-center"></div>
         </>
       )}
     </div>
@@ -34,7 +37,6 @@ export default function FeedPage() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [play, setPlay] = useState(false);
 
   useEffect(() => {
     async function fetchVideos() {
@@ -44,7 +46,10 @@ export default function FeedPage() {
           throw new Error('Failed to fetch videos');
         }
         const data = await res.json();
-        setVideos(data);
+
+        // Updated: backend now returns { videos: [...] }
+        setVideos(data.videos || []);
+        console.log("Fetched videos:", data.videos);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -62,7 +67,11 @@ export default function FeedPage() {
     <div className="grid grid-cols-5 gap-6 p-6">
       {videos.map((video) => (
         <div key={video.id}>
-          <VideoEmbed id={video.id} title={video.title} thumbnail={video.thumbnail} />
+          <VideoEmbed
+            id={video.id}
+            title={video.title}
+            thumbnail={video.thumbnail}
+          />
           <p className="mt-2 font-medium">{video.title}</p>
         </div>
       ))}

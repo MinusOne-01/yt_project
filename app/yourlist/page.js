@@ -1,11 +1,32 @@
 'use client'
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const page = () => {
-
+  
     const [text, setText] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    // fetch existing links on mount
+    useEffect(() => {
+        const fetchLinks = async () => {
+            try {
+                const res = await fetch('/api/links'); // GET handler
+                if (res.ok) {
+                    const data = await res.json();
+                    // fill textarea with urls separated by newlines
+                    setText(data.links.map((l) => l.url).join('\n'));
+                }
+            } catch (err) {
+                console.error('Error fetching links:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLinks();
+    }, []);
 
     const handleSubmit =  async () => {
         const linksArray = text.split('\n').map(link => link.trim()).filter(link => link !== '');
@@ -13,13 +34,11 @@ const page = () => {
         try{
             const res = await fetch('/api/youtube',{
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ links: linksArray }),
             }).then(res => res.json());
 
-            console.log('Response:', res);
+            console.log('Recieved back:', res);
         }
         catch(err){
             console.error('Error submitting links:', err);
