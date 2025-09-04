@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
     <div>
-      <button onClick={() => router.push('./feed')}>Welcome</button>
+      <button onClick={() => router.push('./yourlist')}>Welcome</button>
     </div>
     </>
   );

@@ -2,11 +2,13 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useRouter} from "next/navigation";
 
 const page = () => {
   
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     // fetch existing links on mount
     useEffect(() => {
@@ -39,6 +41,7 @@ const page = () => {
             }).then(res => res.json());
 
             console.log('Recieved back:', res);
+            router.push('/feed');
         }
         catch(err){
             console.error('Error submitting links:', err);
