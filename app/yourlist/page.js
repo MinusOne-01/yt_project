@@ -10,7 +10,6 @@ const page = () => {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    
 
     const handleSubmit =  async () => {
         try{
