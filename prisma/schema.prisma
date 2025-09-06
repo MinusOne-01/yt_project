@@ -17,13 +17,26 @@ model User{
   id    String  @id @default(cuid())
   email String @unique
   links Link[]
+  group Group[]
+}
+
+model Group{
+  id     String  @id @default(cuid())
+  name   String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  links  Link[]
+
+  @@unique([name, userId]) 
 }
 
 model Link{
   id     String @id @default(cuid())
   url    String
   userId String
+  groupId String?
   user   User   @relation(fields: [userId], references: [id])
+  group   Group?    @relation(fields: [groupId], references: [id])
 
   @@unique([url, userId])
 }
