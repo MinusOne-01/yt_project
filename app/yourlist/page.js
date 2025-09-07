@@ -61,21 +61,34 @@ const page = () => {
   return (
     <>
     <div className='min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF] p-4'>
+              
+              <div className="container mx-auto px-4 py-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                  {channels.map((channel, index) => (
+                      <div
+                          key={index}
+                          className="bg-gradient-to-br from-white/20 to-white/5 
+                 backdrop-blur-xl rounded-2xl p-6 shadow-lg 
+                 flex flex-col items-center 
+                 transition-transform transform hover:scale-105 
+                 hover:shadow-xl"
+                      >
+                          <img
+                              src={channel.meta.logo || "https://via.placeholder.com/150"}
+                              alt={channel.meta.name || "Channel Logo"}
+                              className="w-24 h-24 rounded-full mb-4 object-cover 
+                   ring-2 ring-white/40 shadow-md"
+                          />
+                          <h2 className="text-lg font-semibold text-white mb-1">
+                              {channel.meta.name}
+                          </h2>
+                     </div>
+                  ))}
+              </div>
+              </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10'>
-        {channels.map((channel, index) => (
-            <div key={index} className='bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-4 shadow-lg flex flex-col items-center'>
-                <img 
-                src={channel.meta.logo || 'https://via.placeholder.com/150'} 
-                alt={channel.meta.name || 'Channel Logo'} 
-                className='w-24 h-24 rounded-full mb-4 object-cover'
-                />
-                <h2 className='text-xl font-semibold text-white mb-2'>{channel.meta.name}</h2>
-            </div>          
-        ))}
-        </div>
 
-        <div className='flex flex-col items-center justify-center min-h-screen'>
+        <div className='flex flex-col items-center justify-center'>
         <h1 className='text-2xl md:text-5xl font-bold
          text-white text-center drop-shadow-lg py-5'>
         Enter your channel links here</h1>
