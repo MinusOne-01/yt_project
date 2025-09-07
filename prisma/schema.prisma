@@ -32,11 +32,22 @@ model Group{
 
 model Link{
   id     String @id @default(cuid())
-  url    String
+  channelId    String
   userId String
   groupId String?
   user   User   @relation(fields: [userId], references: [id])
   group   Group?    @relation(fields: [groupId], references: [id])
+  meta   Link_meta?
 
-  @@unique([url, userId])
+  @@unique([channelId, userId])
 }
+
+model Link_meta{
+  id     String @id @default(cuid())
+  linkId String @unique
+  name   String?
+  logo   String?
+  fetchedAt DateTime @default(now())
+  link   Link   @relation(fields: [linkId], references: [id])
+}
+

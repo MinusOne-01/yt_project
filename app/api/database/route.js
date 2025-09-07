@@ -52,7 +52,6 @@ async function getChannelMetadata(videoUrl) {
 }
 
 
-
 export async function POST(req) {
   try {
     // auth check then get url
@@ -60,6 +59,17 @@ export async function POST(req) {
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    let user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: { email: session.user.email },
+      });
+    }
+
     let { url } = await req.json();
     
     //get Id from video url
@@ -69,23 +79,26 @@ export async function POST(req) {
     }
     
     // get video metadata
-    const data = await getChannelMetadata(url);
-    if (!data) {
+    const channel_data = await getChannelMetadata(url);
+    if (!channel_data) {
       return NextResponse.json({ error: "Failed to fetch video metadata" }, { status: 400 });
     }
     
-    const user_data = await prisma.link.create({
-        data: {
-            url: channelId,
-            user: { connect: { email: session.user.email } }
-        }
+    const link_data = await prisma.link.create({
+      data: {
+        channelId, 
+        user: { connect: { email: session.user.email } },
+        meta: {
+          create: {
+            name: channel_data.channelName,
+            logo: channel_data.channelLogo,
+          },
+        },
+      },
+      include: { meta: true },
     });
-    console.log("Stored link:", user_data);
 
-    return NextResponse.json({
-        link: user_data.url,    
-        metadata: data,
-    });
+    return NextResponse.json(link_data);
   }
   catch (err) {
       if (err.code === "P2002") {
@@ -97,3 +110,25 @@ export async function POST(req) {
       throw err;
   }
 }  
+
+export async function GET(req) {
+  try {
+    // auth check
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const links = await prisma.link.findMany({
+      where: { user: { email: session.user.email } },
+      include: { meta: true },
+    });
+    return NextResponse.json(links);
+  }
+  catch (err) {
+      return NextResponse.json(
+          { error: "Failed to fetch links." },
+          { status: 500 }
+      );
+  }
+}
+
