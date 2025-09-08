@@ -132,3 +132,31 @@ export async function GET(req) {
   }
 }
 
+export async function DELETE(req) {
+  try {
+    // auth check then get id
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const { id } = await req.json();
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+    console.log("Deleting link with ID:", id);
+    // delete the link
+    await prisma.link.deleteMany({
+      where: { channelId: id
+        , user: { email: session.user.email } },
+    });
+
+    return NextResponse.json({ message: "Link deleted successfully" });
+  }
+  catch (err) {
+      return NextResponse.json(
+          { error: "Failed to delete link." },
+          { status: 500 }
+      );
+  }
+}
+

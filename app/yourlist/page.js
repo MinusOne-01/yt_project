@@ -21,10 +21,10 @@ const page = () => {
                 const data = await res.json();
                 if(res.ok){
                     setChannels(data);
+                    console.log('Channels fetched successfully:', data);
                 } else {
                     console.error('Error fetching channels:', data);
                 }
-                console.log('Fetched channels:', data);
             }
             catch(err){
                 console.error('Error fetching channels:', err);
@@ -46,7 +46,7 @@ const page = () => {
                 alert('Link submitted successfully!');
             } else {
                 alert(data.error || 'Recieved back data but some error occured');
-                console.error('Error response:', data);
+                return;
             }
             console.log('Response data:', data);
             setChannels([...channels, data]);
@@ -54,6 +54,28 @@ const page = () => {
         }
         catch(err){
             console.error('Error submitting links:', err);
+            alert('Something went wrong!');
+        }
+    }
+
+    const handleDelete = async (id) => {
+        try{
+            const res = await fetch('/api/database',{
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id}),
+            });
+            const data = await res.json();
+            if(res.ok){
+                alert('Link deleted successfully!');
+                setChannels(channels.filter(channel => channel.channelId !== id));
+            } else {
+                alert(data.error || 'Recieved back data but some error occured');
+            }
+            console.log('Response data:', data);
+        }
+        catch(err){
+            console.error('Error deleting links:', err);
             alert('Something went wrong!');
         }
     }
@@ -68,12 +90,21 @@ const page = () => {
                   {channels.map((channel, index) => (
                       <div
                           key={index}
-                          className="bg-gradient-to-br from-white/20 to-white/5 
+                          className="group relative bg-gradient-to-br from-white/20 to-white/5 
                  backdrop-blur-xl rounded-2xl p-6 shadow-lg 
                  flex flex-col items-center 
                  transition-transform transform hover:scale-105 
                  hover:shadow-xl"
                       >
+                        <button
+                          className="absolute top-1 right-3 text-white/70 
+                 opacity-0 group-hover:opacity-100 
+                 transition-opacity duration-200 hover:text-red-500"
+                            onClick={() => handleDelete(channel.channelId)}
+                        >
+                          &times;
+                        </button>
+
                           <img
                               src={channel.meta.logo || "https://via.placeholder.com/150"}
                               alt={channel.meta.name || "Channel Logo"}
