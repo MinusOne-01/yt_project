@@ -8,7 +8,8 @@ const page = () => {
   
     const [link, setLink] = useState('');
     const [channels, setChannels] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [groupView, setGroupView] = useState(false);
+    const [groupList, setGroupList] = ([]);
     const router = useRouter();
     
     useEffect(() => {
