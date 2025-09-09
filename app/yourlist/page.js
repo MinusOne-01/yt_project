@@ -7,9 +7,10 @@ import { useRouter} from "next/navigation";
 const page = () => {
   
     const [link, setLink] = useState('');
+    const [groupName, setGroupName] = useState('');
     const [channels, setChannels] = useState([]);
     const [groupView, setGroupView] = useState("off");
-    const [groupList, setGroupList] = ([]);
+    const [groupList, setGroupList] = useState([]);
     const router = useRouter();
     
     useEffect(() => {
@@ -31,7 +32,27 @@ const page = () => {
                 console.error('Error fetching channels:', err);
             }
         }
+        async function fetchGroups(){
+            try{
+                const res = await fetch('/api/group',{
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                }); 
+                const data = await res.json();
+                if(res.ok){
+                    setGroupList(data);
+                    console.log('Groups fetched successfully:', data);
+                } else {
+                    console.error('Error fetching groups:', data);
+                }
+            }
+            catch(err){
+                console.error('Error fetching groups:', err);
+            }
+        }
+
         fetchChannels();
+        fetchGroups();
     }, []);
 
     const handleSubmit =  async () => {
@@ -81,10 +102,43 @@ const page = () => {
         }
     }
 
+    const makeGroup = async (name) => {
+      try{
+            if(name === "")
+            {
+              alert('Name cant be empty!');
+              return;
+            }
+
+            const res = await fetch('/api/group',{
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({gname : name}),
+            });
+
+            const data = await res.json();
+            if(res.ok){
+                alert('Group created!');
+                console.log(data);
+            } else {
+                alert(data.error || 'Recieved back but error in group creation');
+                return;
+            }
+
+            setGroupList([...groupList, data]);
+            console.log(groupList);
+            setGroupName('');
+      }
+      catch(err){
+
+      }
+    }
+
   return (
     <>
     <div className='min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF] pb-40'>
 
+       {/* Buttons to toggle group view */}
         <div className="p-8 flex flex-col items-center">
       {/* Glass container for the toggle */}
       <div className="relative flex w-64 rounded-2xl p-1 bg-white/10 backdrop-blur-xl shadow-lg">
@@ -95,8 +149,6 @@ const page = () => {
             left: groupView === "off" ? "0.25rem" : "50%",
           }}
         />
-
-        {/* Buttons */}
         <button
           onClick={() => setGroupView("off")}
           className={`relative z-10 flex-1 px-4 py-2 text-sm font-semibold rounded-xl transition-colors ${
@@ -116,10 +168,10 @@ const page = () => {
       </div>
       </div>
 
-         {/*Display channels in a responsive grid*/}     
+         {/*Display channels in a responsive grid*/}      
             <div className={`transition-all duration-700 ease-in-out overflow-hidden ${
                            groupView === "off" ? "opacity-100" : "opacity-0"
-             }`}>
+             }`}>   
             <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
                   {channels.map((channel, index) => (
@@ -188,15 +240,79 @@ const page = () => {
         </div>
         </div>
               
+              {/*Create First group*/} 
               <div className={`transition-all duration-500 ease-in-out ${
     groupView === "on" ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
   }`}>
-              <div className="flex flex-col items-center justify-center py-10">
-                  <h2 className="text-2xl font-bold text-white mb-4">
-                      Group view is ON
-                  </h2>
-                  <p className="text-white/70">Show grouped layout here...</p>
+              {groupList.length === 0 ? (
+
+                <div>
+                  <div className='flex flex-col items-center justify-center'>
+                    <h2 className='text-2xl md:text-5xl font-bold
+                                text-white drop-shadow-lg py-5'>
+                       Create your first group
+                   </h2>
+                   <input
+                  type="url"
+                  className="w-full md:w-1/2 lg:w-1/3 h-12 p-4 mb-5 rounded-2xl shadow-md
+                  bg-gradient-to-r from-gray-800 to-gray-700 text-white placeholder-gray-400
+                  focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-gray-900
+                  transition-all duration-300 ease-in-out"
+                  placeholder="Enter a name..."
+                  value={groupName}
+                  onChange={(e) => setGroupName(e.target.value)}
+                /> 
+                   <button
+                  className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
+                   bg-gradient-to-r from-red-400 to-pink-500 
+                   shadow-md hover:shadow-lg 
+                   transition-all duration-300 
+                   hover:scale-105 active:scale-95
+                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+                   onClick={() => makeGroup(groupName)} >
+                    Submit
+                  </button>
+                  </div>
+                </div>
+
+              ) : (
+              
+              <div>                
+                  <div className="container mx-auto px-4 py-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                  {groupList.map((group, index) => (
+                      <div
+                          key={index}
+                          className="group relative bg-gradient-to-br from-white/20 to-white/5 
+                 backdrop-blur-xl rounded-2xl p-6 shadow-lg 
+                 flex flex-col items-center 
+                 transition-transform transform hover:scale-105 
+                 hover:shadow-xl"
+                      >
+                        <button
+                          className="absolute top-1 right-3 text-white/70 
+                 opacity-0 group-hover:opacity-100 
+                 transition-opacity duration-200 hover:text-red-500"
+                        >
+                          &times;
+                        </button>
+
+                          <h2 className="text-lg font-semibold text-white mb-1">
+                              {group.name}
+                          </h2>
+                     </div>
+                  ))}
               </div>
+              </div>
+
+             
+ 
+
+
+              </div>
+                )}
+
+
               </div>
 
     </div>
