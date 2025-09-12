@@ -142,7 +142,7 @@ export async function DELETE(req) {
     if (!id) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
-    console.log("Deleting link with ID:", id);
+    
     // delete the link
     await prisma.link.deleteMany({
       where: { channelId: id

@@ -1,10 +1,11 @@
 import React from 'react'
 
-const ChannelList = ({channels, delChannel, Image}) => {
+const GroupList = ({ groups, delGroup }) => {
+  console.log(groups);
   return (
     <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                  {channels.map((channel, index) => (
+                  {groups.map((group, index) => (
                       <div
                           key={index}
                           className="group relative bg-gradient-to-br from-white/20 to-white/5 
@@ -17,21 +18,13 @@ const ChannelList = ({channels, delChannel, Image}) => {
                           className="absolute top-1 right-3 text-white/70 
                  opacity-0 group-hover:opacity-100 
                  transition-opacity duration-200 hover:text-red-500"
-                            onClick={() => delChannel(channel.channelId)}
+                 onClick={() => delGroup(group.id)}
                         >
                           &times;
                         </button>
 
-                          <Image
-                              src={channel.meta.logo || "https://via.placeholder.com/150"}
-                              alt={channel.meta.name || "loading..."}
-                              width={96}
-                              height={96}
-                              className="w-24 h-24 rounded-full mb-4 object-cover 
-                   ring-2 ring-white/40 shadow-md"
-                          />
                           <h2 className="text-lg font-semibold text-white mb-1">
-                              {channel.meta.name}
+                              {group.name}
                           </h2>
                      </div>
                   ))}
@@ -40,4 +33,4 @@ const ChannelList = ({channels, delChannel, Image}) => {
   )
 }
 
-export default ChannelList
+export default GroupList

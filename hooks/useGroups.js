@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addGroup, fetchGroups } from "@/lib/api";
+import { addGroup, fetchGroups, removeGroup } from "@/lib/api";
 
 export default function useGroups(){
 
@@ -31,10 +31,20 @@ export default function useGroups(){
         }
     }
 
+    const delGroup = async (id) => {
+        try{
+            await removeGroup(id);
+            setGroups((prev) => prev.filter((g) => g.id !== id));
+        }
+        catch(err){
+            setError(err.message);
+        }
+    }
+
     useEffect(() => {
         getAllgrp();
     }, [])
 
-    return { groups, createGroup, refetch: getAllgrp};
+    return { groups, createGroup, delGroup , refetch: getAllgrp};
 
 }
