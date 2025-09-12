@@ -3,14 +3,16 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useRouter} from "next/navigation";
+import useChannels from '@/hooks/useChannels';
+import useGroups from '@/hooks/useGroups';
 
 const page = () => {
-  
+    
+    const { channels, error, addChannel, delChannel } = useChannels();
+    const { getAllgrp, createGroup } = useGroups();
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
-    const [channels, setChannels] = useState([]);
     const [groupView, setGroupView] = useState("off");
-    const [groupList, setGroupList] = useState([]);
     const router = useRouter();
     
     useEffect(() => {
