@@ -31,6 +31,10 @@ export default function useGroups(){
         }
     }
 
-    return { getAllgrp, createGroup };
+    useEffect(() => {
+        getAllgrp();
+    }, [])
+
+    return { groups, createGroup, refetch: getAllgrp};
 
 }

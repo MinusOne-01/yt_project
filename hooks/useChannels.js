@@ -34,8 +34,8 @@ export default function useChannels(){
 
     const delChannel = async (id) => {
         try{
-            await removeChannel();
-            setChannels((prev) => prev.filter((c) => c.channelID !== id))
+            await removeChannel(id);
+            setChannels((prev) => prev.filter((c) => c.channelId !== id))
         }
         catch(err){
             setError(err.message);
@@ -43,10 +43,10 @@ export default function useChannels(){
     }
 
     useEffect(() => {
-        getAll();
+        getAllch();
     },[])
 
-    return {channels, error, addChannel, delChannel, refetch: getALlch};
+    return {channels, error, addChannel, delChannel, refetch: getAllch};
 
 
 }

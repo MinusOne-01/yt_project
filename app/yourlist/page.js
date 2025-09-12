@@ -5,136 +5,16 @@ import { useState, useEffect } from 'react'
 import { useRouter} from "next/navigation";
 import useChannels from '@/hooks/useChannels';
 import useGroups from '@/hooks/useGroups';
+import Link from 'next/link';
 
 const page = () => {
     
     const { channels, error, addChannel, delChannel } = useChannels();
-    const { getAllgrp, createGroup } = useGroups();
+    const { groups, createGroup } = useGroups();
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
     const [groupView, setGroupView] = useState("off");
     const router = useRouter();
-    
-    useEffect(() => {
-        async function fetchChannels(){
-            try{
-                const res = await fetch('/api/database',{
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-                }); 
-                const data = await res.json();
-                if(res.ok){
-                    setChannels(data);
-                    console.log('Channels fetched successfully:', data);
-                } else {
-                    console.error('Error fetching channels:', data);
-                }
-            }
-            catch(err){
-                console.error('Error fetching channels:', err);
-            }
-        }
-        async function fetchGroups(){
-            try{
-                const res = await fetch('/api/group',{
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-                }); 
-                const data = await res.json();
-                if(res.ok){
-                    setGroupList(data);
-                    console.log('Groups fetched successfully:', data);
-                } else {
-                    console.error('Error fetching groups:', data);
-                }
-            }
-            catch(err){
-                console.error('Error fetching groups:', err);
-            }
-        }
-
-        fetchChannels();
-        fetchGroups();
-    }, []);
-
-    const handleSubmit =  async () => {
-        try{
-            const res = await fetch('/api/database',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({url : link}),
-            });
-
-            const data = await res.json();
-            if(res.ok){
-                alert('Link submitted successfully!');
-            } else {
-                alert(data.error || 'Recieved back data but some error occured');
-                return;
-            }
-            console.log('Response data:', data);
-            setChannels([...channels, data]);
-            setLink('');
-        }
-        catch(err){
-            console.error('Error submitting links:', err);
-            alert('Something went wrong!');
-        }
-    }
-
-    const handleDelete = async (id) => {
-        try{
-            const res = await fetch('/api/database',{
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id}),
-            });
-            const data = await res.json();
-            if(res.ok){
-                alert('Link deleted successfully!');
-                setChannels(channels.filter(channel => channel.channelId !== id));
-            } else {
-                alert(data.error || 'Recieved back data but some error occured');
-            }
-            console.log('Response data:', data);
-        }
-        catch(err){
-            console.error('Error deleting links:', err);
-            alert('Something went wrong!');
-        }
-    }
-
-    const makeGroup = async (name) => {
-      try{
-            if(name === "")
-            {
-              alert('Name cant be empty!');
-              return;
-            }
-
-            const res = await fetch('/api/group',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({gname : name}),
-            });
-
-            const data = await res.json();
-            if(res.ok){
-                alert('Group created!');
-                console.log(data);
-            } else {
-                alert(data.error || 'Recieved back but error in group creation');
-                return;
-            }
-
-            setGroupList([...groupList, data]);
-            console.log(groupList);
-            setGroupName('');
-      }
-      catch(err){
-
-      }
-    }
 
   return (
     <>
@@ -189,7 +69,7 @@ const page = () => {
                           className="absolute top-1 right-3 text-white/70 
                  opacity-0 group-hover:opacity-100 
                  transition-opacity duration-200 hover:text-red-500"
-                            onClick={() => handleDelete(channel.channelId)}
+                            onClick={() => delChannel(channel.channelId)}
                         >
                           &times;
                         </button>
@@ -236,7 +116,10 @@ const page = () => {
                    transition-all duration-300 
                    hover:scale-105 active:scale-95
                    focus:outline-none focus:ring-2 focus:ring-pink-400'
-        onClick={() => handleSubmit()}
+        onClick={() => {
+          addChannel(link);
+          setLink('');
+        }}
         >Submit</button>
         </div>  
         </div>
@@ -246,7 +129,7 @@ const page = () => {
               <div className={`transition-all duration-500 ease-in-out ${
     groupView === "on" ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
   }`}>
-              {groupList.length === 0 ? (
+              {groups.length === 0 ? (
 
                 <div>
                   <div className='flex flex-col items-center justify-center'>
@@ -271,7 +154,7 @@ const page = () => {
                    transition-all duration-300 
                    hover:scale-105 active:scale-95
                    focus:outline-none focus:ring-2 focus:ring-pink-400'
-                   onClick={() => makeGroup(groupName)} >
+                   onClick={() => createGroup(groupName)} >
                     Submit
                   </button>
                   </div>
@@ -282,7 +165,7 @@ const page = () => {
               <div>                
                   <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                  {groupList.map((group, index) => (
+                  {groups.map((group, index) => (
                       <div
                           key={index}
                           className="group relative bg-gradient-to-br from-white/20 to-white/5 
