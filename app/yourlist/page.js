@@ -8,12 +8,13 @@ import Image from "next/image";
 import useChannels from '@/hooks/useChannels';
 import useGroups from '@/hooks/useGroups';
 
+import ToggleView from '@/components/ToggleView';
 import ChannelList from '@/components/ChannelList';
 import ChannelForm from '@/components/ChannelForm';
 import GroupList from '@/components/GroupList';
 import GroupChannelList from '@/components/GroupChannelList';
 import GroupForm from '@/components/GroupForm';
-import ToggleView from '@/components/ToggleView';
+import GroupEditForm from '@/components/GroupEditForm';
 
 
 const page = () => {
@@ -24,6 +25,7 @@ const page = () => {
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
     const [groupFolderMeta, setGroupFolderMeta] = useState([]);
+    const [groupEditView, setGroupEditView] = useState("off");
     const [groupView, setGroupView] = useState("off");
     const [groupChannelView, setGroupChannelView] = useState("off");
     const router = useRouter();
@@ -55,7 +57,15 @@ const page = () => {
           {/*Display Channels inside Group folders*/}
           <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupChannelView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>
-          <GroupChannelList groupFolderMeta={groupFolderMeta} channels={channels} />
+            <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupEditView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}>
+            <GroupChannelList groupFolderMeta={groupFolderMeta} channels={channels} setGroupEditView={setGroupEditView} />
+          </div>
+          <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupEditView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}>
+            <GroupEditForm groupFolderMeta={groupFolderMeta} channels={channels} setGroupEditView={setGroupEditView} Image={Image}/>
+          </div>
+          
           </div>
 
         </div>
