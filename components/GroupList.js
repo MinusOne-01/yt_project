@@ -1,7 +1,7 @@
 import React from 'react'
 
-const GroupList = ({ groups, delGroup }) => {
-  console.log(groups);
+const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderMeta }) => {
+  //console.log(groups);
   return (
     <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
@@ -13,12 +13,19 @@ const GroupList = ({ groups, delGroup }) => {
                  flex flex-col items-center 
                  transition-transform transform hover:scale-105 
                  hover:shadow-xl"
+                          onClick={() => {
+                            setGroupFolderMeta(group)
+                            setGroupChannelView("on")
+                          }}
                       >
                         <button
                           className="absolute top-1 right-3 text-white/70 
                  opacity-0 group-hover:opacity-100 
                  transition-opacity duration-200 hover:text-red-500"
-                 onClick={() => delGroup(group.id)}
+                 onClick={(e) => {
+                  e.stopPropagation();
+                  delGroup(group.id)
+                }}
                         >
                           &times;
                         </button>

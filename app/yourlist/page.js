@@ -11,6 +11,7 @@ import useGroups from '@/hooks/useGroups';
 import ChannelList from '@/components/ChannelList';
 import ChannelForm from '@/components/ChannelForm';
 import GroupList from '@/components/GroupList';
+import GroupChannelList from '@/components/GroupChannelList';
 import GroupForm from '@/components/GroupForm';
 import ToggleView from '@/components/ToggleView';
 
@@ -22,7 +23,9 @@ const page = () => {
 
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
+    const [groupFolderMeta, setGroupFolderMeta] = useState([]);
     const [groupView, setGroupView] = useState("off");
+    const [groupChannelView, setGroupChannelView] = useState("off");
     const router = useRouter();
 
   return (
@@ -42,8 +45,19 @@ const page = () => {
         
         <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>
-          <GroupList groups={groups} delGroup={delGroup}/>  
+          {/*Display Group folders*/}
+          <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupChannelView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}>  
+          <GroupList groups={groups} delGroup={delGroup} setGroupChannelView={setGroupChannelView} setGroupFolderMeta={setGroupFolderMeta}/>  
           <GroupForm groupName={groupName} setGroupName={setGroupName} createGroup={createGroup} />
+          </div>
+
+          {/*Display Channels inside Group folders*/}
+          <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupChannelView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}>
+          <GroupChannelList groupFolderMeta={groupFolderMeta} channels={channels} />
+          </div>
+
         </div>
         </div>
 
