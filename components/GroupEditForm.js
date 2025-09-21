@@ -6,7 +6,7 @@ const GroupEditForm = ({ groupFolderMeta, channels, setGroupEditView, Image }) =
 
         <h1>Channels not in any group</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                  {channels.filter(channel => channel.groupId === null).map((channel, index) => (
+                  {channels.filter(channel => channel.group.length === 0).map((channel, index) => (
                       <div
                           key={index}
                           className="group relative bg-gradient-to-br from-white/20 to-white/5 
@@ -41,7 +41,7 @@ const GroupEditForm = ({ groupFolderMeta, channels, setGroupEditView, Image }) =
 
               <h1>Channels in other groups</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                  {channels.filter(channel => channel.groupId !== null).map((channel, index) => (
+                  {channels.filter(channel => channel.group.length !== 0).map((channel, index) => (
                       <div
                           key={index}
                           className="group relative bg-gradient-to-br from-white/20 to-white/5 

@@ -119,7 +119,7 @@ export async function GET(req) {
     }
     const links = await prisma.link.findMany({
       where: { user: { email: session.user.email } },
-      include: { meta: true },
+      include: { meta: true, group: true },
     });
     return NextResponse.json(links);
   }

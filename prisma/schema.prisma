@@ -24,8 +24,9 @@ model Group{
   id     String  @id @default(cuid())
   name   String
   userId String
+
+  links  Link[]  @relation("LinkGroups")
   user   User    @relation(fields: [userId], references: [id])
-  links  Link[]
 
   @@unique([name, userId]) 
 }
@@ -34,10 +35,10 @@ model Link{
   id     String @id @default(cuid())
   channelId    String
   userId String
-  groupId String?
-  user   User   @relation(fields: [userId], references: [id])
-  group   Group?    @relation(fields: [groupId], references: [id])
   meta   Link_meta?
+
+  group   Group[]    @relation("LinkGroups")
+  user   User   @relation(fields: [userId], references: [id])
 
   @@unique([channelId, userId])
 }
@@ -48,6 +49,7 @@ model Link_meta{
   name   String?
   logo   String?
   fetchedAt DateTime @default(now())
+
   link   Link   @relation(fields: [linkId], references: [id], onDelete: Cascade)
 }
 
