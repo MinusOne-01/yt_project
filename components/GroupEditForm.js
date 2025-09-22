@@ -1,12 +1,23 @@
 import React from 'react'
 
-const GroupEditForm = ({ groupFolderMeta, channels, setGroupEditView, Image }) => {
+const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGroup, setGroupEditView, Image }) => {
+  
+  const currentGroup = groups.find(g => g.id === groupFolderId);
+  if (!currentGroup) {
+  return <div>Loading group...</div>;
+  }
+
+  const channelIds = new Set(currentGroup.links?.map(link => link.channelId) || []);
+  console.log(currentGroup.links);
+  const channelsInGroup = channels.filter(ch => channelIds.has(ch.channelId));
+  const channelsNotInGroup = channels.filter(ch => !channelIds.has(ch.channelId));
+
   return (
     <div className="container mx-auto px-4 py-5">
 
-        <h1>Channels not in any group</h1>
+        <h1>Channels in current Group</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                  {channels.filter(channel => channel.group.length === 0).map((channel, index) => (
+                  {channelsInGroup.map((channel, index) => (
                       <div
                           key={index}
                           className="group relative bg-gradient-to-br from-white/20 to-white/5 
@@ -14,15 +25,8 @@ const GroupEditForm = ({ groupFolderMeta, channels, setGroupEditView, Image }) =
                  flex flex-col items-center 
                  transition-transform transform hover:scale-105 
                  hover:shadow-xl"
+                 onClick={() => delfromGroup(channel.id, channel.channelId ,groupFolderId)}
                       >
-                        <button
-                          className="absolute top-1 right-3 text-white/70 
-                 opacity-0 group-hover:opacity-100 
-                 transition-opacity duration-200 hover:text-red-500"
-                            //onClick={() => }
-                        >
-                          &times;
-                        </button>
 
                           <Image
                               src={channel.meta.logo || "https://via.placeholder.com/150"}
@@ -39,9 +43,9 @@ const GroupEditForm = ({ groupFolderMeta, channels, setGroupEditView, Image }) =
                   ))}
               </div>
 
-              <h1>Channels in other groups</h1>
+              <h1>Other channels</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                  {channels.filter(channel => channel.group.length !== 0).map((channel, index) => (
+                  {channelsNotInGroup.map((channel, index) => (
                       <div
                           key={index}
                           className="group relative bg-gradient-to-br from-white/20 to-white/5 
@@ -49,15 +53,8 @@ const GroupEditForm = ({ groupFolderMeta, channels, setGroupEditView, Image }) =
                  flex flex-col items-center 
                  transition-transform transform hover:scale-105 
                  hover:shadow-xl"
+                 onClick={() => addToGroup(channel.id, channel.channelId, groupFolderId)}
                       >
-                        <button
-                          className="absolute top-1 right-3 text-white/70 
-                 opacity-0 group-hover:opacity-100 
-                 transition-opacity duration-200 hover:text-red-500"
-                            //onClick={() => }
-                        >
-                          &times;
-                        </button>
 
                           <Image
                               src={channel.meta.logo || "https://via.placeholder.com/150"}

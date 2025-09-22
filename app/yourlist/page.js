@@ -20,11 +20,11 @@ import GroupEditForm from '@/components/GroupEditForm';
 const page = () => {
     
     const { channels, error, addChannel, delChannel } = useChannels();
-    const { groups, createGroup, delGroup } = useGroups();
+    const { groups, createGroup, delGroup, addToGroup, delfromGroup } = useGroups();
 
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
-    const [groupFolderMeta, setGroupFolderMeta] = useState([]);
+    const [groupFolderId, setGroupFolderId] = useState('');
     const [groupEditView, setGroupEditView] = useState("off");
     const [groupView, setGroupView] = useState("off");
     const [groupChannelView, setGroupChannelView] = useState("off");
@@ -50,7 +50,7 @@ const page = () => {
           {/*Display Group folders*/}
           <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupChannelView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>  
-          <GroupList groups={groups} delGroup={delGroup} setGroupChannelView={setGroupChannelView} setGroupFolderMeta={setGroupFolderMeta}/>  
+          <GroupList groups={groups} delGroup={delGroup} setGroupChannelView={setGroupChannelView} setGroupFolderId={setGroupFolderId}/>  
           <GroupForm groupName={groupName} setGroupName={setGroupName} createGroup={createGroup} />
           </div>
 
@@ -59,11 +59,12 @@ const page = () => {
           }`}>
             <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupEditView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>
-            <GroupChannelList groupFolderMeta={groupFolderMeta} channels={channels} setGroupEditView={setGroupEditView} />
+            <GroupChannelList groups={groups} groupFolderId={groupFolderId} channels={channels} setGroupEditView={setGroupEditView} />
           </div>
+          {/*Display group folder edit form*/}
           <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupEditView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>
-            <GroupEditForm groupFolderMeta={groupFolderMeta} channels={channels} setGroupEditView={setGroupEditView} Image={Image}/>
+            <GroupEditForm groups={groups} groupFolderId={groupFolderId} channels={channels} addToGroup={addToGroup} delfromGroup={delfromGroup} setGroupEditView={setGroupEditView} Image={Image}/>
           </div>
           
           </div>

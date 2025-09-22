@@ -1,6 +1,6 @@
 import React from 'react'
 
-const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderMeta }) => {
+const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderId }) => {
   console.log(groups);
   return (
     <div className="container mx-auto px-4 py-5">
@@ -14,7 +14,7 @@ const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderMeta }
                  transition-transform transform hover:scale-105 
                  hover:shadow-xl"
                           onClick={() => {
-                            setGroupFolderMeta(group)
+                            setGroupFolderId(group.id)
                             setGroupChannelView("on")
                           }}
                       >

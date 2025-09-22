@@ -1,11 +1,17 @@
 import React from 'react'
 
-const GroupChannelList = ({ groupFolderMeta, channels, setGroupEditView }) => {
+const GroupChannelList = ({ groups, groupFolderId, channels, setGroupEditView }) => {
+
+  const currentGroup = groups.find(g => g.id === groupFolderId);
+  if (!currentGroup) {
+  return <div>Loading group...</div>;
+  }
+  
   return (
     <div>
 
     <div className="container mx-auto px-4 py-5">
-        <h1>Inside {groupFolderMeta.name}</h1>
+        <h1>Inside { currentGroup.name } </h1>
     </div>
     
     <div className='fixed flex items-center justify-center  bottom-0 w-full p-4 

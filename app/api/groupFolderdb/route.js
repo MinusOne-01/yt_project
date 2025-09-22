@@ -12,10 +12,10 @@ export async function POST(req){
 
        const { linkId, groupId } = await req.json();
 
-       await prisma.link.update({
-           where: { id: linkId },
+       await prisma.group.update({
+           where: { id: groupId },
            data: {
-               groups: { connect: { id: groupId } }
+               links: { connect: { id: linkId } }
            }
        });
 
@@ -38,11 +38,11 @@ export async function DELETE(req) {
 
     const { linkId, groupId } = await req.json();
 
-    await prisma.link.update({
-      where: { id: linkId },
+    await prisma.group.update({
+      where: { id: groupId },
       data: {
-        groups: {
-          disconnect: { id: groupId },
+        links: {
+          disconnect: { id: linkId },
         },
       },
     });

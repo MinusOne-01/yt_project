@@ -12,6 +12,7 @@ export async function GET(res){
 
         const groups = await prisma.group.findMany({
             where: { user: { email: session.user.email }},
+            include: { links: true },
         })
 
         return NextResponse.json(groups);
