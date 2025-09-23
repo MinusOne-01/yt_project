@@ -9,7 +9,7 @@ const ChannelForm = ({ link, setLink, addChannel}) => {
         <div className='flex flex-col items-center justify-center'>
         <h1 className='text-2xl md:text-5xl font-bold
          text-white text-center drop-shadow-lg py-5'>
-        Enter your channel links here</h1>
+        Enter channel link here</h1>
 
         <input
         type="url"

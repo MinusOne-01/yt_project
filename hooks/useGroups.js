@@ -46,7 +46,7 @@ export default function useGroups(){
         try{
             setGroups((prev) =>
                 prev.map(g =>
-                g.id === groupId ? {...g, links: [...g.links, {channelId : channelId}] } : g                
+                g.id === groupId ? {...g, links: [...(g.links || []), {channelId : channelId}] } : g                
             ));
             await insertinGroup(linkId, groupId);
         }
