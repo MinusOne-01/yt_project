@@ -30,6 +30,11 @@ const GroupForm = ({ groupName, createGroup, setGroupName }) => {
                    hover:scale-105 active:scale-95
                    focus:outline-none focus:ring-2 focus:ring-pink-400'
         onClick={() => {
+          if(groupName === "")
+          {
+            alert("Group name cant be empty!");
+            return;
+          }
           createGroup(groupName);
           setGroupName('');
         }}

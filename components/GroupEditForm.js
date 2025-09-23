@@ -8,14 +8,20 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
   }
 
   const channelIds = new Set(currentGroup.links?.map(link => link.channelId) || []);
-  console.log(currentGroup.links);
+
   const channelsInGroup = channels.filter(ch => channelIds.has(ch.channelId));
   const channelsNotInGroup = channels.filter(ch => !channelIds.has(ch.channelId));
 
   return (
+    <div>
     <div className="container mx-auto px-4 py-5">
 
-        <h1>Channels in current Group</h1>
+          <h5 className="text-4xl md:text-3xl lg:text-5xl font-bold text-white mb-6 text-center">
+              Channels in <span className="text-white">{currentGroup.name}</span>
+              <span className="block text-xl md:text-lg lg:text-2xl font-medium text-gray-200 mt-2">
+                  (Click to remove)
+              </span>
+          </h5>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
                   {channelsInGroup.map((channel, index) => (
                       <div
@@ -43,7 +49,12 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
                   ))}
               </div>
 
-              <h1>Other channels</h1>
+              <h5 className="text-4xl md:text-3xl lg:text-5xl font-bold text-white mb-6 text-center">
+              Other Channels
+              <span className="block text-xl md:text-lg lg:text-2xl font-medium text-gray-200 mt-2">
+                  (Click to Add)
+              </span>
+          </h5>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
                   {channelsNotInGroup.map((channel, index) => (
                       <div
@@ -70,8 +81,23 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
                      </div>
                   ))}
               </div>
-        
+    </div>
 
+    <div className='fixed flex items-center justify-center gap-3 bottom-0 w-full p-4 
+    bg-gradient-to-r from-gray-900 to-gray-800 
+    md:mb-50 md:bg-transparent'>       
+        <button
+        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
+                   bg-gradient-to-r from-red-400 to-pink-500 
+                   shadow-md hover:shadow-lg 
+                   transition-all duration-300 
+                   hover:scale-105 active:scale-95
+                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        onClick={() => setGroupEditView("off")}
+        >Save
+        </button>
+        </div> 
+        
     </div>
   )
 }

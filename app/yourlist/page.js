@@ -59,7 +59,7 @@ const page = () => {
           }`}>
             <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupEditView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>
-            <GroupChannelList groups={groups} groupFolderId={groupFolderId} channels={channels} setGroupEditView={setGroupEditView} />
+            <GroupChannelList groups={groups} groupFolderId={groupFolderId} channels={channels} setGroupChannelView={setGroupChannelView} setGroupEditView={setGroupEditView} Image={Image} />
           </div>
           {/*Display group folder edit form*/}
           <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupEditView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"

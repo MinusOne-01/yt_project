@@ -30,6 +30,11 @@ const ChannelForm = ({ link, setLink, addChannel}) => {
                    hover:scale-105 active:scale-95
                    focus:outline-none focus:ring-2 focus:ring-pink-400'
         onClick={() => {
+          if(link === "")
+          {
+            alert("Enter a valid link!");
+            return;
+          }
           addChannel(link);
           setLink('');
         }}
