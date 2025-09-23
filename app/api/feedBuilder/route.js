@@ -15,12 +15,13 @@ export async function GET(req) {
     // 2️⃣ Fetch user + their links from DB
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
-      include: { links: true },
+      select: { links: { select: { channelId: true } } }
     });
+    const channelIds = user.links.map(link => link.channelId);
+ 
+    console.log("User links:", channelIds ? channelIds : "No links found");
 
-    console.log("User links:", user ? user.links : "No user found");
-
-    if (!user || user.links.length === 0) {
+    if (!channelIds || channelIds.length === 0) {
       return NextResponse.json({ videos: [] }); // no channels, no videos
     }
 
@@ -33,28 +34,13 @@ export async function GET(req) {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
+    console.log(`Fetching videos from ${channelIds.length} channels...`);
+    
     // 4️⃣ Loop over all user links and fetch videos
     const allVideos = [];
 
-    console.log(`Fetching videos from ${user.links.length} channels...`);
-
-    function extractChannelId(url) {
-  // Case 1: Full channel URL
-  let match = url.match(/channel\/([a-zA-Z0-9_-]+)/);
-  if (match) return match[1];
-
-  // Case 2: raw channel ID
-  if (/^UC[a-zA-Z0-9_-]{22}$/.test(url)) {
-    return url; // it's already a channelId
-  }
-
-  return null;
-}
-
-
-    for (const linkObj of user.links) {
-       const url = linkObj.url;
-       const channelId = extractChannelId(url);
+    for (const linkObj of channelIds) {
+       const channelId = linkObj;
 
        if (!channelId) {
           console.log(`Skipping unsupported link: ${url}`);
@@ -98,60 +84,10 @@ export async function GET(req) {
     allVideos.sort((a, b) => new Date(b.published) - new Date(a.published));
 
     return NextResponse.json({ videos: allVideos });
-  } catch (err) {
+  }
+  catch(err){
     console.error("GET /youtube error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-
-export async function POST(req) {
-   try{
-      
-      // auth check
-      const session = await getServerSession(authOptions);
-      if(!session){
-         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-      const { links } = await req.json();
-      console.log("Links: ", links); 
-      
-      // fetch user from db
-      let user = await prisma.user.findUnique({
-         where: { email: session.user.email },
-      });
-      
-      // if user not found, create new user
-      if (!user) {
-      user = await prisma.user.create({
-        data: {
-          email: session.user.email,
-        },
-      });
-    }
-      
-      const result = await prisma.$transaction(async (tx) => {
-         // delete old links
-         await tx.link.deleteMany({ where: { userId: user.id } });
-
-         // insert new links
-         await tx.link.createMany({
-            data: links.map((url) => ({ url, userId: user.id })),
-         });
-
-         // fetch the fresh list
-         const newLinks = await tx.link.findMany({
-            where: { userId: user.id },
-         });
-
-         return newLinks;
-      });
-
-
-      return NextResponse.json({ result } );
-
-   }
-   catch(err){
-      return NextResponse.json({ error: err.message }, { status: 500 });
-   }
-}

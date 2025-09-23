@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter} from "next/navigation";
 import Image from "next/image";
 
@@ -42,7 +42,7 @@ const page = () => {
         <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>
           <ChannelList channels={channels} delChannel={delChannel} Image={Image}/>
-          <ChannelForm link={link} setLink={setLink} addChannel={addChannel} />
+          <ChannelForm link={link} setLink={setLink} addChannel={addChannel} router={router}/>
         </div>
         
         <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ChannelForm = ({ link, setLink, addChannel}) => {
+const ChannelForm = ({ link, setLink, addChannel, router }) => {
   return (
     <div className='fixed bottom-0 w-full p-4 
     bg-gradient-to-r from-gray-900 to-gray-800 
@@ -22,6 +22,7 @@ const ChannelForm = ({ link, setLink, addChannel}) => {
         onChange={(e) => setLink(e.target.value)}
         />
 
+        <div className='flex items-center justify-center gap-4'>
         <button
         className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
                    bg-gradient-to-r from-red-400 to-pink-500 
@@ -39,6 +40,19 @@ const ChannelForm = ({ link, setLink, addChannel}) => {
           setLink('');
         }}
         >Submit</button>
+        <button
+        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
+                   bg-gradient-to-r from-red-400 to-pink-500 
+                   shadow-md hover:shadow-lg 
+                   transition-all duration-300 
+                   hover:scale-105 active:scale-95
+                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        onClick={() => {
+          router.push('/feed');
+        }}
+        >Go to Feed</button>
+        </div>
+
         </div>  
         </div>
   )
