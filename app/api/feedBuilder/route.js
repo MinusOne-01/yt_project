@@ -64,6 +64,7 @@ export async function GET(req) {
 
       const videos = jsonData.feed.entry?.map((entry) => ({
         id: entry["yt:videoId"],
+        channelId: channelId,
         title: entry.title,
         link: entry.link.href,
         published: entry.published,

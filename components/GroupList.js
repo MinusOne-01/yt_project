@@ -1,7 +1,7 @@
 import React from 'react'
 
 const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderId }) => {
-  console.log(groups);
+
   return (
     <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">

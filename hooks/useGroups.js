@@ -4,16 +4,16 @@ import { addGroup, fetchGroups, removeGroup, insertinGroup, removefromGroup } fr
 export default function useGroups(){
 
     const [groups, setGroups] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [groupsloading, setGroupsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const getAllgrp = async () => {
         try {
-            setLoading(true);
+            setGroupsLoading(true);
             const data = await fetchGroups();
             setGroups(data);
             setError(null);
-            setLoading(false);
+            setGroupsLoading(false);
         }
         catch(err){
             setError(err.message);
@@ -78,6 +78,6 @@ export default function useGroups(){
         getAllgrp();
     }, [])
 
-    return { groups, createGroup, delGroup, addToGroup, delfromGroup, refetch: getAllgrp};
+    return { groups, groupsloading, createGroup, delGroup, addToGroup, delfromGroup, refetch: getAllgrp};
 
 }

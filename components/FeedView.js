@@ -1,7 +1,8 @@
 import React from "react";
 
-const FeedView = ({ videos, VideoPlayer }) => {
-
+const FeedView = ({ videos, filterList, VideoPlayer }) => {
+//console.log(videos);
+console.log(filterList);
     return (
     <div className="grid grid-cols-5 gap-6 p-6">
       {videos.videos.map((video) => (
