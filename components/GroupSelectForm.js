@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilterList, setGroupSelectorView }) => {
+  console.log(filterList);
   return (
     <div>
         <div className="container mx-auto px-4 py-20">
@@ -12,7 +13,7 @@ const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilter
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
                       {groups.map((group, index) => {
 
-                        const isSelected = filterList.includes(group.id);
+                        const [isSelected, setIsSelected] = useState(false);
                         return(
                           <div
                               key={index}
@@ -23,7 +24,16 @@ const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilter
                  hover:shadow-xl
                   ${isSelected ? 'bg-gray-600 text-white shadow-2xl' : 'bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl text-white'}
                   `}
-                          onClick={() => isSelected ? removefromFilterList(group.links) : addToFilterList(group.links)}
+                            onClick={() => {
+                              setIsSelected(prev => {
+                                if (!prev) {
+                                  addToFilterList(group.links);
+                                } else {
+                                  removefromFilterList(group.links);
+                                }
+                                return !prev;
+                              });
+                            }}
                           >
 
                               <h2 className="text-lg font-semibold text-white mb-1">
