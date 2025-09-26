@@ -83,7 +83,7 @@ export async function GET(req) {
 
     // 5️⃣ Sort all videos by published date descending
     allVideos.sort((a, b) => new Date(b.published) - new Date(a.published));
-
+    
     return NextResponse.json({ videos: allVideos });
   }
   catch(err){

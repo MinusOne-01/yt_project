@@ -3,6 +3,7 @@ import { fetchVideos } from "@/lib/api";
 
 export default function useFeed(){
     
+    const [allVideos, setAllVideos] = useState([]);
     const [videos, setVideos] = useState([]);
     const [filterList, setFilterList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,7 +13,25 @@ export default function useFeed(){
         try {
             const data = await fetchVideos();
             setLoading(false);
-            setVideos(data || []);
+            setVideos(data.videos || []);
+            setAllVideos(data.videos || []);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    }
+
+    const filterFeed = async () => {
+        try {
+            const showChannels = new Set(filterList.flat().map(f => f.channelId));
+            console.log("showchannel->", showChannels);
+            console.log("allvids->",allVideos);
+
+            if (showChannels.size === 0) {
+                setVideos([]);
+            } else {
+                setVideos(allVideos.filter(v => showChannels.has(v.channelId)));
+            }
         }
         catch (err) {
             setError(err.message);
@@ -21,6 +40,7 @@ export default function useFeed(){
 
     const addToFilterList = async (links) => {
         try {
+            if(links.length === 0) return;
             setFilterList((prev) => {
 
                 if (!prev.includes(links)) {
@@ -36,6 +56,7 @@ export default function useFeed(){
 
     const removefromFilterList = async (links) => {
         try {
+            if(links.length === 0) return;
             setFilterList((prev) => {
                 if (!prev || prev.length === 0) return [];
                 return prev.filter((g) => g !== links);
@@ -50,6 +71,6 @@ export default function useFeed(){
         buildFeed();
     }, [])
 
-    return { videos, filterList, addToFilterList, removefromFilterList, loading, error, buildFeed };
+    return { videos, filterFeed, filterList, addToFilterList, removefromFilterList, loading, error };
 }
 

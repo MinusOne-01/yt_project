@@ -10,10 +10,10 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 export default function Feed() {
 
-  const { videos, filterList, addToFilterList, removefromFilterList, loading, error, buildFeed } = useFeed();
+  const { videos, filterFeed, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
   const { groups, groupsloading } = useGroups();
   const [groupSelectorView, setGroupSelectorView] = useState(true);
-  
+  console.log("filterlist->",filterList);
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#FF8235] to-[#30E8BF]">
@@ -31,13 +31,13 @@ export default function Feed() {
       {loading || groupSelectorView ? (
         <div>
           
-          <GroupSelectForm  groups={groups} filterList={filterList} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} setGroupSelectorView={setGroupSelectorView}/>
+          <GroupSelectForm  groups={groups} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} setGroupSelectorView={setGroupSelectorView}/>
 
         </div>
       ) : (
         <div className={`transition-opacity duration-700 ease-in-out opacity-100"}`}>
   
-        <FeedView videos={videos} filterList={filterList} VideoPlayer={VideoPlayer} />
+        <FeedView videos={videos} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} VideoPlayer={VideoPlayer} />
 
         </div>
       )}
