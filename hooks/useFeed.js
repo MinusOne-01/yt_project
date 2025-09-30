@@ -29,8 +29,9 @@ export default function useFeed(){
     const filterFeed = async () => {
         try {
             console.log("filterdata->", filterList);
+            const allLinks = filterList.flatMap(group => group.links); 
 
-            const showChannels = new Set(filterList.flat().map(f => f.channelId));
+            const showChannels = new Set(allLinks.map(link => link.channelId));
             console.log("showchannel->", showChannels);
             console.log("allvids->",allVideos);
 
@@ -45,13 +46,13 @@ export default function useFeed(){
         }
     }
 
-    const addToFilterList = async (links) => {
+    const addToFilterList = async (group) => {
         try {
-            if(links.length === 0) return;
+            if(group.length === 0) return;
             setFilterList((prev) => {
 
-                if (!prev.includes(links)) {
-                    return [...prev, links];
+                if (!prev.includes(group.id)) {
+                    return [...prev, group];
                 }
                 return prev;
             });
@@ -61,14 +62,14 @@ export default function useFeed(){
         }
     }
 
-    const removefromFilterList = async (links) => {
+    const removefromFilterList = async (group) => {
         try {
-            if(links.length === 0){
+            if(group.length === 0){
                 return;
             }
             setFilterList((prev) => {
                 if (!prev || prev.length === 0) return [];
-                return prev.filter((g) => g !== links);
+                return prev.filter((g) => g.id !== group.id);
             });
         }
         catch(err){

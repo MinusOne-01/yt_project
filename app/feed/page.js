@@ -39,7 +39,7 @@ export default function Feed() {
         <div className={`transition-opacity duration-700 ease-in-out opacity-100"}`}>
   
         <FeedView videos={videos} VideoPlayer={VideoPlayer}/>
-        <FeedFilterForm  groups={groups} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} removeFilters={removeFilters}/>
+        <FeedFilterForm  groups={groups} filterList={filterList} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} removeFilters={removeFilters}/>
 
         </div>
       )}

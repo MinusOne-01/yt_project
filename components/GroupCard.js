@@ -14,13 +14,14 @@ function GroupCard({ group, addToFilterList, removefromFilterList }) {
       'bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl text-white'}
       `}
       onClick={() => {
-        setIsSelected(prev => {
-          const newSelected = !prev;
-          newSelected
-            ? addToFilterList(group.links)
-            : removefromFilterList(group.links);
-          return newSelected;
-        });
+        const newSelected = !isSelected;
+        setIsSelected(newSelected);
+
+        if (newSelected) {
+          addToFilterList(group);
+        } else {
+          removefromFilterList(group);
+        }
       }}
     >
       <h2 className="text-lg font-semibold text-white mb-1">

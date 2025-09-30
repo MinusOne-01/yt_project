@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 
-function FilterDropdown({ groups, addToFilterList, removefromFilterList, filterFeed, removeFilters }) {
+function FilterDropdown({ groups, filterList, addToFilterList, removefromFilterList, filterFeed, removeFilters }) {
+
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedGroups, setSelectedGroups] = useState([]);
-  console.log("selgrp->",selectedGroups)
+  const allLinks = filterList.flatMap(group => group.id);
+  const [selectedGroups, setSelectedGroups] = useState(allLinks);
 
   const toggleGroup = (group) => {
     if (selectedGroups.includes(group.id)) {
-      setSelectedGroups((prev) => prev.filter((id) => id !== group.id));
-      removefromFilterList(group.links);
+      setSelectedGroups((prev) => prev.filter((g) => g !== group.id));
+      removefromFilterList(group);
     } else {
       setSelectedGroups((prev) => [...prev, group.id]);
-      addToFilterList(group.links);
+      addToFilterList(group);
     }
   };
 
