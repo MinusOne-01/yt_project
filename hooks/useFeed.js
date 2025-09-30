@@ -20,9 +20,16 @@ export default function useFeed(){
             setError(err.message);
         }
     }
+    
+    const removeFilters = async () => {
+        console.log("Filters removed!");
+        setVideos(allVideos);
+    }
 
     const filterFeed = async () => {
         try {
+            console.log("filterdata->", filterList);
+
             const showChannels = new Set(filterList.flat().map(f => f.channelId));
             console.log("showchannel->", showChannels);
             console.log("allvids->",allVideos);
@@ -56,7 +63,9 @@ export default function useFeed(){
 
     const removefromFilterList = async (links) => {
         try {
-            if(links.length === 0) return;
+            if(links.length === 0){
+                return;
+            }
             setFilterList((prev) => {
                 if (!prev || prev.length === 0) return [];
                 return prev.filter((g) => g !== links);
@@ -71,6 +80,6 @@ export default function useFeed(){
         buildFeed();
     }, [])
 
-    return { videos, filterFeed, filterList, addToFilterList, removefromFilterList, loading, error };
+    return { videos, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error };
 }
 

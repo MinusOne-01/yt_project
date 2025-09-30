@@ -6,11 +6,12 @@ import useFeed from '@/hooks/useFeed';
 
 import GroupSelectForm from '@/components/GroupSelectForm';
 import FeedView from '@/components/FeedView';
+import FeedFilterForm from '@/components/FeedFilterForm';
 import VideoPlayer from '@/components/VideoPlayer';
 
 export default function Feed() {
 
-  const { videos, filterFeed, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
+  const { videos, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
   const { groups, groupsloading } = useGroups();
   const [groupSelectorView, setGroupSelectorView] = useState(true);
   console.log("filterlist->",filterList);
@@ -37,7 +38,8 @@ export default function Feed() {
       ) : (
         <div className={`transition-opacity duration-700 ease-in-out opacity-100"}`}>
   
-        <FeedView videos={videos} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} VideoPlayer={VideoPlayer} />
+        <FeedView videos={videos} VideoPlayer={VideoPlayer}/>
+        <FeedFilterForm  groups={groups} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} removeFilters={removeFilters}/>
 
         </div>
       )}
