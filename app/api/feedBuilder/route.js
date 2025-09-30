@@ -18,8 +18,6 @@ export async function GET(req) {
       select: { links: { select: { channelId: true } } }
     });
     const channelIds = user.links.map(link => link.channelId);
- 
-    console.log("User links:", channelIds ? channelIds : "No links found");
 
     if (!channelIds || channelIds.length === 0) {
       return NextResponse.json({ videos: [] }); // no channels, no videos
@@ -28,13 +26,12 @@ export async function GET(req) {
     // 3️⃣ Parse "days" query param
     const { searchParams } = new URL(req.url);
     let days = parseInt(searchParams.get("days") || "10", 10);
+    console.log(days);
     if (isNaN(days) || days < 1) days = 3;
     if (days > 30) days = 30;
 
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
-
-    console.log(`Fetching videos from ${channelIds.length} channels...`);
     
     // 4️⃣ Loop over all user links and fetch videos
     const allVideos = [];
@@ -47,7 +44,6 @@ export async function GET(req) {
           continue;
        }
 
-       console.log(`Fetching RSS for channel ID: ${channelId}`);
 
       const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
       const res = await fetch(rssUrl);
@@ -60,8 +56,6 @@ export async function GET(req) {
       });
       const jsonData = parser.parse(xmlData);
 
-      console.log(`Fetched RSS for channel ${channelId}`);
-
       const videos = jsonData.feed.entry?.map((entry) => ({
         id: entry["yt:videoId"],
         channelId: channelId,
@@ -71,7 +65,6 @@ export async function GET(req) {
         thumbnail: entry["media:group"]["media:thumbnail"].url,
       })) || [];
 
-      console.log(`Fetched ${videos.length} videos from channel ${channelId}`);
 
       // filter by date
       const recentVideos = videos.filter(

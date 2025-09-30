@@ -8,12 +8,15 @@ import GroupSelectForm from '@/components/GroupSelectForm';
 import FeedView from '@/components/FeedView';
 import FeedFilterForm from '@/components/FeedFilterForm';
 import VideoPlayer from '@/components/VideoPlayer';
+import LoadingScreen from '@/components/LoadingScreen';
+import FadeWrapper from '@/components/FadeWrapper';
 
 export default function Feed() {
 
-  const { videos, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
+  const { videos, extendFeed, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
   const { groups, groupsloading } = useGroups();
   const [groupSelectorView, setGroupSelectorView] = useState(true);
+
   console.log("filterlist->",filterList);
   if (error) {
     return (
@@ -26,26 +29,43 @@ export default function Feed() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF] pb-40">
-
-      <div>
-      {loading || groupSelectorView ? (
-        <div>
-          
-          <GroupSelectForm  groups={groups} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} setGroupSelectorView={setGroupSelectorView}/>
-
-        </div>
+  <div className="relative min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF] pb-40">
+    <div>
+      {groupSelectorView ? (
+        <GroupSelectForm
+          groups={groups}
+          addToFilterList={addToFilterList}
+          removefromFilterList={removefromFilterList}
+          filterFeed={filterFeed}
+          setGroupSelectorView={setGroupSelectorView}
+        />
       ) : (
-        <div className={`transition-opacity duration-700 ease-in-out opacity-100"}`}>
-  
-        <FeedView videos={videos} VideoPlayer={VideoPlayer}/>
-        <FeedFilterForm  groups={groups} filterList={filterList} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} removeFilters={removeFilters}/>
+        <>
+          {/* Loading screen */}
+          <FadeWrapper show={loading}>
+            <LoadingScreen />
+          </FadeWrapper>
 
-        </div>
+          {/* Feed view */}
+          <FadeWrapper show={!loading}>
+            <div>
+              <FeedView videos={videos} VideoPlayer={VideoPlayer} />
+              <FeedFilterForm
+                groups={groups}
+                extendFeed={extendFeed}
+                filterList={filterList}
+                addToFilterList={addToFilterList}
+                removefromFilterList={removefromFilterList}
+                filterFeed={filterFeed}
+                removeFilters={removeFilters}
+              />
+            </div>
+          </FadeWrapper>
+        </>
       )}
-      </div>
-
     </div>
-  );
+  </div>
+);
+
 }
 

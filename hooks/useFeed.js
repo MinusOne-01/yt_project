@@ -8,10 +8,12 @@ export default function useFeed(){
     const [filterList, setFilterList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currData, setCurrData] = useState('');
 
     const buildFeed = async () => {
         try {
-            const data = await fetchVideos();
+            setCurrData(2);
+            const data = await fetchVideos(2);
             setLoading(false);
             setVideos(data.videos || []);
             setAllVideos(data.videos || []);
@@ -20,10 +22,28 @@ export default function useFeed(){
             setError(err.message);
         }
     }
-    
-    const removeFilters = async () => {
-        console.log("Filters removed!");
-        setVideos(allVideos);
+
+    const extendFeed = async (days) => {
+        try {
+            setLoading(true);
+            if(currData >= days){
+                const now = new Date();
+                const cutoff = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+                setVideos(allVideos.filter(video => new Date(video.published) >= cutoff));
+                if (filterFeed.length !== 0) filterFeed();
+
+            } else {
+                setCurrData(days);
+                const data = await fetchVideos(days);
+                setAllVideos(data.videos || []);
+                setVideos(data.videos);
+                if (filterFeed.length !== 0) filterFeed();
+            }
+            setLoading(false);
+        }
+        catch (err) {
+            setError(err.message);
+        }
     }
 
     const filterFeed = async () => {
@@ -38,12 +58,17 @@ export default function useFeed(){
             if (showChannels.size === 0) {
                 setVideos([]);
             } else {
-                setVideos(allVideos.filter(v => showChannels.has(v.channelId)));
+                setVideos((prev) => prev.filter(v => showChannels.has(v.channelId)));
             }
         }
         catch (err) {
             setError(err.message);
         }
+    }
+
+    const removeFilters = async () => {
+        console.log("Filters removed!");
+        setVideos(allVideos);
     }
 
     const addToFilterList = async (group) => {
@@ -81,6 +106,6 @@ export default function useFeed(){
         buildFeed();
     }, [])
 
-    return { videos, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error };
+    return { videos, extendFeed, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error };
 }
 

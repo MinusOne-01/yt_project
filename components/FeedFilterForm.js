@@ -1,7 +1,8 @@
 import React from 'react'
 import FilterDropdown from './FilterDropdown'
+import TimeFilterDropdown from './TimeFilterDropdown'
 
-const FeedFilterForm = ({groups, filterList ,addToFilterList, removefromFilterList, filterFeed, removeFilters}) => {
+const FeedFilterForm = ({groups, extendFeed, filterList ,addToFilterList, removefromFilterList, filterFeed, removeFilters}) => {
   
   return (
     <div>
@@ -11,11 +12,9 @@ const FeedFilterForm = ({groups, filterList ,addToFilterList, removefromFilterLi
           <div className='w-half'>
             <FilterDropdown groups={groups} filterList={filterList} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} filterFeed={filterFeed} removeFilters={removeFilters}/>
           </div>
-        <button>
           <div className='font-semibold text-white w-half'>
-            Select Recent
+            <TimeFilterDropdown extendFeed={extendFeed} />
           </div>
-        </button>
         </div> 
     </div>
   )
