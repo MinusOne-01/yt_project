@@ -55,16 +55,20 @@ export async function GET(req) {
         attributeNamePrefix: "",
       });
       const jsonData = parser.parse(xmlData);
+      console.log(jsonData)
 
       const videos = jsonData.feed.entry?.map((entry) => ({
         id: entry["yt:videoId"],
         channelId: channelId,
         title: entry.title,
+        author: entry.author.name,
         link: entry.link.href,
         published: entry.published,
         thumbnail: entry["media:group"]["media:thumbnail"].url,
       })) || [];
-
+      
+      console.log(videos);
+  
 
       // filter by date
       const recentVideos = videos.filter(

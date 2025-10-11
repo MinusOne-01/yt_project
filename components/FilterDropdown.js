@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function FilterDropdown({ groups, filterList, addToFilterList, removefromFilterList, filterFeed, removeFilters }) {
+function FilterDropdown({ groups, filterList, addToFilterList, removefromFilterList, removeFilters }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const allLinks = filterList.flatMap(group => group.id);
@@ -22,7 +22,7 @@ function FilterDropdown({ groups, filterList, addToFilterList, removefromFilterL
             setSelectedGroups([]);
         }
         else{
-            filterFeed();
+
         }
         
         setIsOpen(false);
