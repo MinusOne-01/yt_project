@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import useTranscript from "@/hooks/useTranscript";
 
 const FeedView = ({ videos, VideoCard }) => {
+
   if (!videos || videos.length === 0) {
     return (
       <div className="text-center text-gray-500 py-20">
         No videos to display
       </div>
     );
+  }
+  else{
+    const { transcripts, loading } = useTranscript(videos);
   }
 
   return (
