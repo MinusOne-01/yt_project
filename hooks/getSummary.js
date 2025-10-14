@@ -1,7 +1,7 @@
 export default async function getSummary(transcript) {
   try {
     console.log("Summaryhook hit");
-    const res = await fetch("/api/ss", {
+    const res = await fetch("/api/dummy", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ transcript }),

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import getSummary from "@/hooks/getSummary";
 
@@ -27,7 +27,12 @@ export default function VideoCard({ id, title, author, transcript, txtloading })
     }
   };
 
-  if(expanded) handleSummarize();
+  useEffect(() => {
+    if (expanded) {
+      if(summary !== '') return;
+      handleSummarize();
+    }
+  }, [expanded]);
 
 
   return (
