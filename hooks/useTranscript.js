@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const CONCURRENCY_LIMIT = 5;
+const CONCURRENCY_LIMIT = 1;
 
 export default function useTranscript(videos) {
 
@@ -75,6 +75,7 @@ export default function useTranscript(videos) {
         });
 
         const results = await fetchWithLimit(tasks, CONCURRENCY_LIMIT);
+        console.log("Robject->", results);
 
         // Merge new transcripts into existing map
         setTranscripts((prev) => {
@@ -82,9 +83,11 @@ export default function useTranscript(videos) {
           results.forEach(({ videoId, transcript }) => {
             if (videoId && transcript) newMap[videoId] = transcript;
           });
+          console.log("Updated transcripts map:", newMap);
           return newMap;
         });
       } finally {
+        console.log("Tobject", transcripts);
         setLoading(false);
       }
     };

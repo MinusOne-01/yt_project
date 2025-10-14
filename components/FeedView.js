@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import useTranscript from "@/hooks/useTranscript";
 
 const FeedView = ({ videos, VideoCard }) => {
+  
+  const { transcripts, loading } = useTranscript(videos);
 
   if (!videos || videos.length === 0) {
     return (
@@ -9,9 +11,6 @@ const FeedView = ({ videos, VideoCard }) => {
         No videos to display
       </div>
     );
-  }
-  else{
-    const { transcripts, loading } = useTranscript(videos);
   }
 
   return (
@@ -30,6 +29,8 @@ const FeedView = ({ videos, VideoCard }) => {
             id={video.id}
             title={video.title}
             author={video.author}
+            transcript={transcripts[video.id]}
+            txtloading={loading}
           />
         ))}
       </div>

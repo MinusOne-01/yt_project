@@ -1,9 +1,34 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import getSummary from "@/hooks/getSummary";
 
-export default function VideoCard({ id, title, author }) {
+
+export default function VideoCard({ id, title, author, transcript, txtloading }) {
   const [expanded, setExpanded] = useState(false);
   const [play, setPlay] = useState(false);
+  const [summary, setSummary] = useState('');
+  const [loadingSummary, setLoadingSummary] = useState(false);
+
+  const handleSummarize = async () => {
+    if (!transcript || txtloading) {
+      alert("Transcript not ready yet!");
+      return;
+    }
+
+    try {
+      setLoadingSummary(true);
+      const summaryText = await getSummary(transcript);
+      setSummary(summaryText);
+    } catch (err) {
+      console.error("Summary fetch failed:", err);
+      setSummary("Failed to generate summary. Please try again.");
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
+
+  if(expanded) handleSummarize();
+
 
   return (
     <div
@@ -30,12 +55,20 @@ export default function VideoCard({ id, title, author }) {
             className="overflow-hidden mt-4"
             onClick={(e) => e.stopPropagation()} // prevent re-collapse
           >
-            {/* Summary placeholder */}
-            <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-              This is a short summary placeholder. Later, an AI-generated
-              summary will appear here describing the video’s content in a few
-              lines.
-            </p>
+            <div className="text-gray-600 text-sm mb-4 leading-relaxed">
+              {loadingSummary ? (
+                // shimmer loading effect
+                <div className="animate-pulse space-y-2">
+                  <div className="h-3 bg-gray-300 rounded w-11/12"></div>
+                  <div className="h-3 bg-gray-300 rounded w-10/12"></div>
+                  <div className="h-3 bg-gray-300 rounded w-8/12"></div>
+                </div>
+              ) : summary ? (
+                <p>{summary}</p>
+              ) : (
+                <p className="text-gray-400 italic">Summary failed to generate.</p>
+              )}
+            </div>
 
             {/* Play button */}
             {!play ? (

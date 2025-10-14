@@ -29,21 +29,14 @@ export async function POST(req) {
 
     // Extract segments
     const segments = transcriptData.transcript.content.body.initial_segments;
-    
-    const transcript = segments.map(segment => ({
-      text: segment.snippet.text,
-      start: segment.start_ms / 1000,
-      duration: (segment.end_ms - segment.start_ms) / 1000,
-    }));
 
-    const fullText = transcript.map(t => t.text).join(' ');
+    const firstMinuteSegments = segments.filter(segment => Number(segment.start_ms) < 60000);
 
-    console.log("Transcript fetched successfully! Segments:", transcript.length);
+    const transcript = firstMinuteSegments.map(segment => segment.snippet.text).join(' ');
     
     return Response.json({ 
       success: true,
-      transcript,
-      fullText 
+      transcript 
     });
     
   } catch (err) {
