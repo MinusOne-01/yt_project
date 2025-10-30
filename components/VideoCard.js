@@ -11,7 +11,6 @@ export default function VideoCard({ id, title, author, transcript, txtloading })
 
   const handleSummarize = async () => {
     if (!transcript || txtloading) {
-      alert("Transcript not ready yet!");
       return;
     }
 
@@ -57,7 +56,7 @@ export default function VideoCard({ id, title, author, transcript, txtloading })
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="overflow-hidden mt-4"
+            className="overflow-hidden"
             onClick={(e) => e.stopPropagation()} // prevent re-collapse
           >
             <div className="text-gray-600 text-sm mb-4 leading-relaxed">

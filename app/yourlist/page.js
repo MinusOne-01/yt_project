@@ -33,11 +33,14 @@ const page = () => {
   return (
     <>
     <div className='min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF] pb-40'>
-
+      
        {/*button for channels and groups view*/}
+       <div className='fixed inset-0'>
        <ToggleView groupView={groupView} setGroupView={setGroupView}/>
-       
-       <div className='relative min-h-screen'>
+       </div>
+
+       <div className='relative top-30'>
+
          {/*Display channels/groups form and a responsive grid*/}      
         <div className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${groupView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}>

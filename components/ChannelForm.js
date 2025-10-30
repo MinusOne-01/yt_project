@@ -2,9 +2,9 @@ import React from 'react'
 
 const ChannelForm = ({ link, setLink, addChannel, router }) => {
   return (
-    <div className='fixed bottom-0 w-full p-4 
+    <div className='fixed bottom-0 w-full p-6 
     bg-gradient-to-r from-gray-900 to-gray-800 
-    md:mb-50 md:bg-transparent'>
+    md:mb-40 md:bg-transparent'>
         
         <div className='flex flex-col items-center justify-center'>
         <h1 className='text-2xl md:text-5xl font-bold

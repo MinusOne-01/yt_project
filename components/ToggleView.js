@@ -3,7 +3,7 @@ import React from 'react'
 const ToggleView = ({ groupView, setGroupView }) => {
   return (
     <div>
-        <div className="p-8 flex flex-col items-center">
+      <div className="p-8 flex flex-col items-center">
 
       {/* Glass container for the toggle */}
       <div className="relative flex w-64 rounded-2xl p-1 bg-white/10 backdrop-blur-xl shadow-lg">

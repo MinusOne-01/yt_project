@@ -2,6 +2,12 @@ import { Innertube } from 'youtubei.js/web';
 
 export async function POST(req) {
   try {
+
+    return Response.json(
+        { error: 'in Dev mode' },
+        { status: 404 }
+      );
+
     console.log("Request hit!");
     const { videoId } = await req.json();
     

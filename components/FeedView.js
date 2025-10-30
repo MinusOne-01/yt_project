@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import useTranscript from "@/hooks/useTranscript";
+import Masonry from "react-masonry-css";
 
 const FeedView = ({ videos, VideoCard }) => {
   
@@ -13,15 +14,18 @@ const FeedView = ({ videos, VideoCard }) => {
     );
   }
 
+  const breakpointColumns = {
+    default: 2,
+    1024: 1,
+    768: 1,
+  };
+
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-6">
-      <div
-        className="grid gap-6 
-                   grid-cols-1 
-                   sm:grid-cols-2 
-                   md:grid-cols-3 
-                   lg:grid-cols-4 
-                   xl:grid-cols-5"
+    <div className="py-6 flex justify-center">
+      <Masonry
+        breakpointCols={breakpointColumns}
+        className="flex gap-10"
+        columnClassName="flex flex-col gap-6"
       >
         {videos.map((video) => (
           <VideoCard
@@ -32,8 +36,9 @@ const FeedView = ({ videos, VideoCard }) => {
             transcript={transcripts[video.id]}
             txtloading={loading}
           />
+
         ))}
-      </div>
+      </Masonry>
     </div>
   );
 };
