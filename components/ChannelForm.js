@@ -2,9 +2,11 @@ import React from 'react'
 
 const ChannelForm = ({ link, setLink, addChannel, router }) => {
   return (
-    <div className='fixed bottom-0 w-full p-6 
-    bg-gradient-to-r from-gray-900 to-gray-800 
-    md:mb-40 md:bg-transparent'>
+    <div className='
+      fixed bottom-0 w-full p-6 
+      bg-gradient-to-r from-gray-900 to-gray-800 
+      md:mb-40
+    '>
         
         <div className='flex flex-col items-center justify-center'>
         <h1 className='text-2xl md:text-5xl font-bold
@@ -24,7 +26,7 @@ const ChannelForm = ({ link, setLink, addChannel, router }) => {
 
         <div className='flex items-center justify-center gap-4'>
         <button
-        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
+        className='px-11 py-3 mb-5 rounded-xl font-semibold text-white 
                    bg-gradient-to-r from-red-400 to-pink-500 
                    shadow-md hover:shadow-lg 
                    transition-all duration-300 
