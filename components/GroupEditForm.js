@@ -22,7 +22,7 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
                   (Click to remove)
               </span>
           </h5>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10 mx-4">
                   {channelsInGroup.map((channel, index) => (
                       <div
                           key={index}
@@ -55,7 +55,7 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
                   (Click to Add)
               </span>
           </h5>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10 mx-4">
                   {channelsNotInGroup.map((channel, index) => (
                       <div
                           key={index}
@@ -85,20 +85,24 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
 
     <div className='
       fixed bottom-0 w-full p-10 
-      bg-gradient-to-r from-gray-900 to-gray-800 
-      flex items-center justify-center
-    '>       
+        bg-gray-900/95 backdrop-blur-sm
+        border-t border-white/10
+        shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)] 
+    '>     
+       <div className='flex items-center justify-center'>  
         <button
-        className='px-8 py-3 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-red-400 to-pink-500 
-                   shadow-md hover:shadow-lg 
-                   transition-all duration-300 
-                   hover:scale-105 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        className='px-13 py-3 rounded-xl font-semibold text-white 
+                      bg-gray-600 
+                      hover:bg-gray-700
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-200 
+                      hover:scale-[1.02] active:scale-95
+                      focus:outline-none focus:ring-2 focus:ring-white/50'
         onClick={() => setGroupEditView("off")}
         >Done
         </button>
-        </div> 
+        </div>
+    </div> 
         
     </div>
   )

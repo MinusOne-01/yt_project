@@ -4,7 +4,7 @@ const ChannelList = ({channels, delChannel, Image}) => {
   console.log(channels);
   return (
     <div className="container mx-auto px-4 py-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10 mx-4">
                   {channels.map((channel, index) => (
                       <div
                           key={index}
@@ -12,7 +12,8 @@ const ChannelList = ({channels, delChannel, Image}) => {
                  backdrop-blur-xl rounded-2xl p-6 shadow-lg 
                  flex flex-col items-center 
                  transition-transform transform hover:scale-105 
-                 hover:shadow-xl"
+                 hover:shadow-xl
+                 "
                       >
                         <button
                           className="absolute top-1 right-3 text-white/70 

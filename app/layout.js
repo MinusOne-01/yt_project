@@ -20,9 +20,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black/90 relative`}>
+        {/* Subtle grid background */}
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+        </div>
+        
         <Provider>
-        {children}
+          {children}
         </Provider>
       </body>
     </html>

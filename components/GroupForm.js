@@ -4,8 +4,9 @@ const GroupForm = ({ groupName, createGroup, setGroupName, router }) => {
   return (
     <div className='
       fixed bottom-0 w-full p-6 
-      bg-gradient-to-r from-gray-900 to-gray-800 
-      md:mb-40
+  bg-gray-900/95 backdrop-blur-sm
+  border-t border-white/10
+  shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)] 
     '>
         
         <div className='flex flex-col items-center justify-center'>
@@ -26,12 +27,13 @@ const GroupForm = ({ groupName, createGroup, setGroupName, router }) => {
         
         <div className='flex items-center justify-center gap-4'>
         <button
-        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-red-400 to-pink-500 
-                   shadow-md hover:shadow-lg 
-                   transition-all duration-300 
-                   hover:scale-105 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        className='px-11 py-3 mb-5 rounded-xl font-semibold text-white 
+                      bg-gray-600 
+                      hover:bg-gray-700
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-200 
+                      hover:scale-[1.02] active:scale-95
+                      focus:outline-none focus:ring-2 focus:ring-white/50'
         onClick={() => {
           if(groupName === "")
           {
@@ -43,12 +45,13 @@ const GroupForm = ({ groupName, createGroup, setGroupName, router }) => {
         }}
         >Create group</button>
         <button
-        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-red-400 to-pink-500 
-                   shadow-md hover:shadow-lg 
-                   transition-all duration-300 
-                   hover:scale-105 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        className='px-11 py-3 mb-5 rounded-xl font-semibold text-white 
+                      bg-gray-600 
+                      hover:bg-gray-700
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-200 
+                      hover:scale-[1.02] active:scale-95
+                      focus:outline-none focus:ring-2 focus:ring-white/50'
         onClick={() => {
           router.push('/feed');
         }}
