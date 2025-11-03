@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function TimeFilterDropdown({ extendFeed }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +17,11 @@ function TimeFilterDropdown({ extendFeed }) {
     }
     setIsOpen(false);
   };
+
+  useEffect(() => {
+          setSelected(2);
+          handleSave();
+    }, []);
 
   return (
     <div className="relative inline-block">

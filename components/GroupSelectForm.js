@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import GroupCard from './GroupCard';
 
-const GroupSelectForm = ({ groups, addToFilterList, removefromFilterList, filterFeed, setGroupSelectorView }) => {
+const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilterList, setGroupSelectorView }) => {
   
   return (
     <div>
@@ -20,35 +20,41 @@ const GroupSelectForm = ({ groups, addToFilterList, removefromFilterList, filter
                   </div>
               </div>  
         </div>
-        <div className='fixed bottom-0 w-full p-4 
-    bg-gradient-to-r from-gray-900 to-gray-800 
-    md:mb-50 md:bg-transparent'>
+        <div className='fixed bottom-0 w-full p-10 
+  bg-gray-900/95 backdrop-blur-sm
+  border-t border-white/10
+  shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)]'>
         
-        <div className='flex flex-row items-center justify-center gap-3'>
+        <div className='flex flex-row items-center justify-center gap-4'>
 
         <button
-        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-red-400 to-pink-500 
-                   shadow-md hover:shadow-lg 
-                   transition-all duration-300 
-                   hover:scale-105 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        className='px-11 py-3 mb-2 rounded-xl font-semibold text-white 
+                      bg-gray-600 
+                      hover:bg-gray-700
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-200 
+                      hover:scale-[1.02] active:scale-95
+                      focus:outline-none focus:ring-2 focus:ring-white/50'
         onClick={() => {
                 setGroupSelectorView(false);    
         }}
-        >Select All</button>
+        >Go with All Channels</button>
         <button
-        className='px-8 py-3 mb-5 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-red-400 to-pink-500 
-                   shadow-md hover:shadow-lg 
-                   transition-all duration-300 
-                   hover:scale-105 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-pink-400'
+        className='px-11 py-3 mb-2 rounded-xl font-semibold text-white 
+                  bg-gray-600 
+                  hover:bg-gray-700
+                  shadow-lg hover:shadow-xl 
+                  transition-all duration-200 
+                  hover:scale-[1.02] active:scale-95
+                  focus:outline-none focus:ring-2 focus:ring-white/50'
         onClick={() => {
-                filterFeed();
+                if(filterList.length == 0){
+                  alert("Select a group to continue");
+                }else{
                 setGroupSelectorView(false); 
+                }
         }}
-        >Build you Feed</button>
+        >Confirm Selection</button>
         </div>  
         </div>
     </div>

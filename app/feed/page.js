@@ -13,14 +13,14 @@ import FadeWrapper from '@/components/FadeWrapper';
 
 export default function Feed() {
 
-  const { videos, extendFeed, filterFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
+  const { videos, extendFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
   const { groups, groupsloading } = useGroups();
   const [groupSelectorView, setGroupSelectorView] = useState(true);
 
   console.log("filterlist->",filterList);
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#FF8235] to-[#30E8BF]">
+      <div>
         <p className="text-white font-medium text-lg">
           Error: {error}
         </p>
@@ -29,14 +29,14 @@ export default function Feed() {
   }
 
   return (
-  <div className="relative min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF] pb-40">
+  <div>
     <div>
       {groupSelectorView ? (
         <GroupSelectForm
           groups={groups}
+          filterList={filterList}
           addToFilterList={addToFilterList}
           removefromFilterList={removefromFilterList}
-          filterFeed={filterFeed}
           setGroupSelectorView={setGroupSelectorView}
         />
       ) : (
@@ -56,7 +56,6 @@ export default function Feed() {
                 filterList={filterList}
                 addToFilterList={addToFilterList}
                 removefromFilterList={removefromFilterList}
-                filterFeed={filterFeed}
                 removeFilters={removeFilters}
               />
             </div>

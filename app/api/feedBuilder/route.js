@@ -6,6 +6,7 @@ import prisma from "@/lib/prisma";
 
 export async function GET(req) {
   try {
+    console.log("Feed fetch request");
     // 1️⃣ Auth check
     const session = await getServerSession(authOptions);
     if (!session) {

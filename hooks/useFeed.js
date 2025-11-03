@@ -7,6 +7,7 @@ export default function useFeed() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [daysToShow, setDaysToShow] = useState(2);
+    const [daysOfData, setDaysOfData] = useState(2);
 
     // Derived state: compute filtered videos based on allVideos, filterList, and daysToShow
     const videos = useCallback(() => {
@@ -41,6 +42,7 @@ export default function useFeed() {
             const data = await fetchVideos(2);
             setAllVideos(data.videos || []);
             setDaysToShow(2);
+            setDaysOfData(2);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -54,13 +56,16 @@ export default function useFeed() {
             setLoading(true);
             
             // If we need more data than we currently have, fetch it
-            if (daysToShow < days) {
+            if (daysOfData < days) {
                 const data = await fetchVideos(days);
                 setAllVideos(data.videos || []);
+                setDaysToShow(days);
+                setDaysOfData(days);
             }
-            
+            else{
             // Update the days filter (this will trigger re-filtering via the computed videos)
             setDaysToShow(days);
+            }
         } catch (err) {
             setError(err.message);
         } finally {
