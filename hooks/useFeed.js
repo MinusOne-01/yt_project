@@ -73,30 +73,12 @@ export default function useFeed() {
         }
     };
 
-    // These functions now just manage filterList - the actual filtering happens in the computed videos
-    const addToFilterList = (group) => {
-        if (!group || group.length === 0) return;
-        
-        setFilterList((prev) => {
-            // Check if group already exists by id
-            if (prev.some(g => g.id === group.id)) {
-                return prev;
-            }
-            return [...prev, group];
-        });
-    };
-
-    const removefromFilterList = (group) => {
-        if (!group || group.length === 0) return;
-        
-        setFilterList((prev) => {
-            return prev.filter((g) => g.id !== group.id);
-        });
-    };
-
-    const removeFilters = () => {
-        setFilterList([]);
-    };
+    // To apply new filters, just changing state to trigger re-render
+    const updateFilterList = (groups) => {
+        setLoading(true);
+        setFilterList(groups);
+        setLoading(false);
+    }
 
     // Initial load
     useEffect(() => {
@@ -106,12 +88,8 @@ export default function useFeed() {
     return {
         videos: videos(), // Call the memoized function to get current filtered videos
         extendFeed,
-        removeFilters,
-        filterList,
-        addToFilterList,
-        removefromFilterList,
+        updateFilterList,
         loading,
-        error,
-        daysToShow
+        error
     };
 }

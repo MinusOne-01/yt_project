@@ -2,17 +2,16 @@ import React from 'react'
 import FilterDropdown from './FilterDropdown'
 import TimeFilterDropdown from './TimeFilterDropdown'
 
-const FeedFilterForm = ({groups, extendFeed, filterList ,addToFilterList, removefromFilterList, removeFilters}) => {
+const FeedFilterForm = ({groups, extendFeed, updateFilterList}) => {
   
   return (
     <div>
-        <div className='fixed flex items-center justify-center gap-3 bottom-0 w-full p-4 
-    bg-gradient-to-r from-gray-900 to-gray-800 
-    md:mb-50 md:bg-transparent'>       
-          <div className='w-half'>
-            <FilterDropdown groups={groups} filterList={filterList} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} removeFilters={removeFilters}/>
-          </div>
-          <div className='font-semibold text-white w-half'>
+        <div className='fixed bottom-0 w-full p-10 
+                      bg-gray-900/95 backdrop-blur-sm
+                      border-t border-white/10
+                      shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)]'>       
+          <div className='flex items-center justify-center gap-4'>
+            <FilterDropdown groups={groups} updateFilterList={updateFilterList}/>
             <TimeFilterDropdown extendFeed={extendFeed} />
           </div>
         </div> 

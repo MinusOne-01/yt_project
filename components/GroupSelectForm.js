@@ -1,8 +1,22 @@
 import React, { useState } from 'react'
-import GroupCard from './GroupCard';
 
-const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilterList, setGroupSelectorView }) => {
-  
+const GroupSelectForm = ({ groups, updateFilterList, setGroupSelectorView }) => {
+
+  const [selectedGroups, setSelectedGroups] = useState([]);
+
+  const toggleSelection = (group) => {
+    setSelectedGroups((prev) => {
+      const alreadySelected = prev.some((g) => g.id === group.id);
+      return alreadySelected
+        ? prev.filter((g) => g.id !== group.id) // remove
+        : [...prev, group];                    // add
+    });
+  };
+
+  const handleSave = () => {
+     updateFilterList(selectedGroups);
+  };
+
   return (
     <div>
         <div className="container mx-auto px-4 py-20">
@@ -12,9 +26,21 @@ const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilter
         </h5>
               <div className="container mx-auto px-4 py-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-                      {groups.map((group, index) => (
-
-                       <GroupCard key={index} group={group} addToFilterList={addToFilterList} removefromFilterList={removefromFilterList} />
+                      {groups.map((group) => (
+                        <div
+                          key={group.id}
+                          onClick={() => toggleSelection(group)}
+                          className={`group relative bg-gradient-to-br from-white/20 to-white/5 
+                                    backdrop-blur-xl rounded-2xl p-6 shadow-lg 
+                                    flex flex-col items-center 
+                                    transition-transform transform hover:scale-105 
+                                    hover:shadow-xl
+                                    ${selectedGroups.some((g) => g.id === group.id) ? 'bg-gray-600 text-white shadow-2xl' : 'bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl text-white'}`}
+                        >
+                          <h2 className="text-lg font-semibold text-white mb-1">
+                            {group.name}
+                          </h2>
+                        </div>
 
                      ))}
                   </div>
@@ -48,9 +74,10 @@ const GroupSelectForm = ({ groups, filterList, addToFilterList, removefromFilter
                   hover:scale-[1.02] active:scale-95
                   focus:outline-none focus:ring-2 focus:ring-white/50'
         onClick={() => {
-                if(filterList.length == 0){
+                if(selectedGroups.length == 0){
                   alert("Select a group to continue");
                 }else{
+                handleSave();  
                 setGroupSelectorView(false); 
                 }
         }}

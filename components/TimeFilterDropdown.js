@@ -34,30 +34,46 @@ function TimeFilterDropdown({ extendFeed }) {
             setIsOpen(true);
           }
         }}
-        className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition"
+        className="px-11 py-3 rounded font-semibold text-white 
+                      bg-gray-600 
+                      hover:bg-gray-700
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-200 
+                      hover:scale-[1.02] active:scale-95
+                      focus:outline-none focus:ring-2 focus:ring-white/50"
       >
-        {isOpen ? "Save" : "Select Time"}
+        <span className="invisible block">Select Time</span>
+        <span className="absolute inset-0 flex items-center justify-center">
+          {isOpen ? "Save" : "Select Time"}
+        </span>
       </button>
 
       {/* Dropdown */}
-      {isOpen && (
-        <div className="absolute bottom-full mb-2 w-48 bg-white rounded shadow-lg overflow-hidden z-10">
-          {options.map((opt) => (
-            <div
-              key={opt.value}
-              onClick={() => setSelected(opt.value)}
-              className={`px-4 py-2 cursor-pointer transition
-                ${
-                  selected === opt.value
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-800 hover:bg-blue-100"
-                }`}
-            >
-              {opt.label}
-            </div>
-          ))}
-        </div>
-      )}
+  <div
+    className={`absolute bottom-full mb-3 w-52 
+               bg-gray-800 backdrop-blur-md 
+               rounded shadow-lg overflow-hidden 
+               border border-gray-700/40 z-10
+               transform origin-bottom transition-all duration-200
+               ${isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"}`}
+  >
+    {options.map((opt) => (
+      <div
+        key={opt.value}
+        onClick={() => setSelected(opt.value)}
+        className={`px-4 py-2.5 cursor-pointer text-sm transition-all
+          ${
+            selected === opt.value
+              ? "bg-blue-600/70 text-white"
+              : "text-gray-200 hover:bg-gray-700/70 hover:text-white"
+          }`}
+      >
+        {opt.label}
+      </div>
+    ))}
+  </div>
+
+
     </div>
   );
 }

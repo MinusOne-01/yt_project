@@ -1,30 +1,21 @@
 import React, { useState } from "react";
 
-function FilterDropdown({ groups, filterList, addToFilterList, removefromFilterList, removeFilters }) {
+function FilterDropdown({ groups, updateFilterList }) {
 
   const [isOpen, setIsOpen] = useState(false);
-  const allLinks = filterList.flatMap(group => group.id);
-  const [selectedGroups, setSelectedGroups] = useState(allLinks);
+  const [selectedGroups, setSelectedGroups] = useState([]);
 
-  const toggleGroup = (group) => {
-    if (selectedGroups.includes(group.id)) {
-      setSelectedGroups((prev) => prev.filter((g) => g !== group.id));
-      removefromFilterList(group);
-    } else {
-      setSelectedGroups((prev) => [...prev, group.id]);
-      addToFilterList(group);
-    }
+  const toggleSelection = (group) => {
+    setSelectedGroups((prev) => {
+      const alreadySelected = prev.some((g) => g.id === group.id);
+      return alreadySelected
+        ? prev.filter((g) => g.id !== group.id) // remove
+        : [...prev, group];                    // add
+    });
   };
 
     const handleSave = () => {
-        if (selectedGroups.length === 0) {
-            removeFilters();
-            setSelectedGroups([]);
-        }
-        else{
-
-        }
-        
+        updateFilterList(selectedGroups);
         setIsOpen(false);
     };
 
@@ -39,23 +30,35 @@ function FilterDropdown({ groups, filterList, addToFilterList, removefromFilterL
             setIsOpen(true);
           }
         }}
-        className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition"
+        className="px-11 py-3 rounded font-semibold text-white 
+                      bg-gray-600 
+                      hover:bg-gray-700
+                      shadow-lg hover:shadow-xl 
+                      transition-all duration-200 
+                      hover:scale-[1.02] active:scale-95
+                      focus:outline-none focus:ring-2 focus:ring-white/50"
       >
-        {isOpen ? "Save" : "Select Group"}
+        <span className="invisible block">Select Group</span>
+        <span className="absolute inset-0 flex items-center justify-center">
+          {isOpen ? "Save" : "Select Group"}
+        </span>
       </button>
 
       {/* Dropdown with animation */}
       <div
-        className={`absolute bottom-full mb-2 w-48 bg-white rounded shadow-lg overflow-hidden z-10
-          transform origin-bottom transition-all duration-200
-          ${isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"}`}
+        className={`absolute bottom-full mb-3 w-52 
+               bg-gray-800 backdrop-blur-md 
+               rounded shadow-lg overflow-hidden 
+               border border-gray-700/40 z-10
+               transform origin-bottom transition-all duration-200
+               ${isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"}`}
       >
         {groups.map((group) => (
           <div
             key={group.id}
-            onClick={() => toggleGroup(group)}
+            onClick={() => toggleSelection(group)}
             className={`px-4 py-2 cursor-pointer hover:bg-blue-100 transition
-              ${selectedGroups.includes(group.id) ? "bg-blue-600 text-white" : "text-gray-800"}`}
+              ${selectedGroups.some((g) => g.id === group.id) ? "bg-blue-600/70 text-white" : "text-gray-200 hover:bg-gray-700/70 hover:text-white"}`}
           >
             {group.name}
           </div>

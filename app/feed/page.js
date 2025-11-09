@@ -13,11 +13,10 @@ import FadeWrapper from '@/components/FadeWrapper';
 
 export default function Feed() {
 
-  const { videos, extendFeed, removeFilters, filterList, addToFilterList, removefromFilterList, loading, error } = useFeed();
+  const { videos, extendFeed, updateFilterList, loading, error } = useFeed();
   const { groups, groupsloading } = useGroups();
   const [groupSelectorView, setGroupSelectorView] = useState(true);
 
-  console.log("filterlist->",filterList);
   if (error) {
     return (
       <div>
@@ -34,9 +33,7 @@ export default function Feed() {
       {groupSelectorView ? (
         <GroupSelectForm
           groups={groups}
-          filterList={filterList}
-          addToFilterList={addToFilterList}
-          removefromFilterList={removefromFilterList}
+          updateFilterList={updateFilterList}
           setGroupSelectorView={setGroupSelectorView}
         />
       ) : (
@@ -53,10 +50,7 @@ export default function Feed() {
               <FeedFilterForm
                 groups={groups}
                 extendFeed={extendFeed}
-                filterList={filterList}
-                addToFilterList={addToFilterList}
-                removefromFilterList={removefromFilterList}
-                removeFilters={removeFilters}
+                updateFilterList={updateFilterList}
               />
             </div>
           </FadeWrapper>
