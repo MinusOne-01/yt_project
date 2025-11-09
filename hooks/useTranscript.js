@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const CONCURRENCY_LIMIT = 1;
+const CONCURRENCY_LIMIT = 1; 
 
 export default function useTranscript(videos) {
 
@@ -8,11 +8,14 @@ export default function useTranscript(videos) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
+    // return if No videos
     if (!videos || videos.length === 0) {
       setLoading(false);
       return;
     }
-
+    
+    // function to extract videoID
     const extractVideoId = (url) => {
       try {
         const u = new URL(url);
@@ -21,27 +24,32 @@ export default function useTranscript(videos) {
         return null;
       }
     };
-
+    
+    // Controls how many transcripts are fetched in parallel
     const fetchWithLimit = async (tasks, limit) => {
+
       const results = [];
       const executing = new Set();
 
-      for (const task of tasks) {
+      for (const task of tasks){
+
         const p = task().then((result) => {
           executing.delete(p);
           return result;
         });
         results.push(p);
         executing.add(p);
-
-        if (executing.size >= limit) {
+        if(executing.size >= limit){
           await Promise.race(executing);
         }
+
       }
-
       return Promise.all(results);
-    };
 
+    };
+    
+
+    // main function to fetch transcripts and build hash map
     const fetchTranscripts = async () => {
       setLoading(true);
       try {
@@ -56,9 +64,8 @@ export default function useTranscript(videos) {
         }
 
         const tasks = videosToFetch.map((v) => async () => {
+
           const videoId = extractVideoId(v.link);
-          console.log("Link->", v.link);
-          console.log("Id->", videoId);
           try {
             const res = await fetch("/api/transcript", {
               method: "POST",
@@ -66,16 +73,15 @@ export default function useTranscript(videos) {
               body: JSON.stringify({ videoId }),
             });
             const data = await res.json();
-            console.log("Recieved->", data);
             return { videoId, transcript: data.transcript || null };
-          } catch (err) {
+          }
+          catch (err){
             console.warn(`Transcript failed for ${v.title}`, err);
             return { videoId, transcript: null };
           }
         });
 
         const results = await fetchWithLimit(tasks, CONCURRENCY_LIMIT);
-        console.log("Robject->", results);
 
         // Merge new transcripts into existing map
         setTranscripts((prev) => {
@@ -83,11 +89,10 @@ export default function useTranscript(videos) {
           results.forEach(({ videoId, transcript }) => {
             if (videoId && transcript) newMap[videoId] = transcript;
           });
-          console.log("Updated transcripts map:", newMap);
           return newMap;
         });
-      } finally {
-        console.log("Tobject", transcripts);
+      }
+      finally{
         setLoading(false);
       }
     };

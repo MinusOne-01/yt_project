@@ -7,7 +7,6 @@ import useFeed from '@/hooks/useFeed';
 import GroupSelectForm from '@/components/GroupSelectForm';
 import FeedView from '@/components/FeedView';
 import FeedFilterForm from '@/components/FeedFilterForm';
-import VideoCard from '@/components/VideoCard';
 import LoadingScreen from '@/components/LoadingScreen';
 import FadeWrapper from '@/components/FadeWrapper';
 
@@ -31,10 +30,7 @@ export default function Feed() {
   <div>
     <div>
       {groupSelectorView ? (
-        <GroupSelectForm
-          groups={groups}
-          updateFilterList={updateFilterList}
-          setGroupSelectorView={setGroupSelectorView}
+        <GroupSelectForm groups={groups} updateFilterList={updateFilterList} setGroupSelectorView={setGroupSelectorView}
         />
       ) : (
         <>
@@ -46,11 +42,8 @@ export default function Feed() {
           {/* Feed view */}
           <FadeWrapper show={!loading}>
             <div>
-              <FeedView videos={videos} VideoCard={VideoCard} />
-              <FeedFilterForm
-                groups={groups}
-                extendFeed={extendFeed}
-                updateFilterList={updateFilterList}
+              <FeedView videos={videos} />
+              <FeedFilterForm groups={groups} extendFeed={extendFeed} updateFilterList={updateFilterList}
               />
             </div>
           </FadeWrapper>

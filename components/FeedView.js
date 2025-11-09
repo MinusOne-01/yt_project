@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
+import VideoCard from '@/components/VideoCard';
 import useTranscript from "@/hooks/useTranscript";
 import Masonry from "react-masonry-css";
 
-const FeedView = ({ videos, VideoCard }) => {
+const FeedView = ({ videos }) => {
   
   const { transcripts, loading } = useTranscript(videos);
 
