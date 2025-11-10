@@ -22,7 +22,7 @@ const FeedView = ({ videos }) => {
   };
 
   return (
-    <div className="py-6 flex justify-center">
+    <div className="py-6 pb-70 flex justify-center overflow-y-auto scrollbar-hide">
       <Masonry
         breakpointCols={breakpointColumns}
         className="flex gap-10"

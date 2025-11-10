@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { purgeOldEntries } from "@/utils/purgeOldEntries";
 
 const CONCURRENCY_LIMIT = 1; 
+const LAST_CLEANUP_KEY = "transcriptCacheLastCleanup";
 
 export default function useTranscript(videos) {
 
@@ -122,6 +124,22 @@ export default function useTranscript(videos) {
 
     fetchTranscripts();
   }, [videos]); // rerun when videos array changes
+  
+  // check for cache cleanup
+  useEffect(() => {
+    const lastCleanup = localStorage.getItem("transcriptCacheLastCleanup");
+    const now = Date.now();
+    const last = lastCleanup ? new Date(lastCleanup).getTime() : 0;
+    const diffDays = (now - last) / (1000 * 60 * 60 * 24);
+    
+    // cleanup only after every 15 days or so
+    if (diffDays >= 15) {
+      console.log("🧹 Auto cleaning old transcripts...");
+      setTranscripts((prev) => purgeOldEntries(prev, 20));
+      localStorage.setItem("transcriptCacheLastCleanup", new Date().toISOString());
+    }
+  }, []);
+
 
   return { transcripts, setTranscripts, loading };
 }

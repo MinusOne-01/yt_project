@@ -28,7 +28,7 @@ export default function Feed() {
 
   return (
   <div>
-    <div>
+    <div className='h-screen flex flex-col overflow-y-auto scrollbar-hide'>
       {groupSelectorView ? (
         <GroupSelectForm groups={groups} updateFilterList={updateFilterList} setGroupSelectorView={setGroupSelectorView}
         />
