@@ -8,8 +8,15 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
   const [play, setPlay] = useState(false);
   const [summary, setSummary] = useState(desc);
   const [loadingSummary, setLoadingSummary] = useState(false);
+  
+  function getStatusText() {
+    if (txtloading) return "Getting the connections ready...";
+    if (!transcript) return "Summary cannot be generated for this video";
+    return "Reopen card to generate Summary";
+  }
 
   const handleSummarize = async () => {
+ 
     if(!transcript || txtloading) return;
     if(desc != null){
       setSummary(desc);
@@ -23,7 +30,6 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     }
     catch(err){
       console.error("Summary fetch failed:", err);
-      setSummary("Server error, try again later");
     }
     finally{
       setLoadingSummary(false);
@@ -63,7 +69,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
             onClick={(e) => e.stopPropagation()} // prevent re-collapse
           >
             <div className="text-gray-600 text-sm mb-4 leading-relaxed">
-              {loadingSummary ? (
+              {(loadingSummary) ? (
                 // shimmer loading effect
                 <div className="animate-pulse space-y-2">
                   <div className="h-3 bg-gray-300 rounded w-11/12"></div>
@@ -73,7 +79,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
               ) : summary ? (
                 <p>{summary}</p>
               ) : (
-                <p className="text-gray-400 italic">just a moment...</p>
+                <p className="text-gray-400 italic">{getStatusText()}</p>
               )}
             </div>
 

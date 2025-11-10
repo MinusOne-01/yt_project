@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const CONCURRENCY_LIMIT = 1; 
 
 export default function useTranscript(videos) {
 
-  const [transcripts, setTranscripts] = useState({});
+  const [transcripts, setTranscripts] = useLocalStorage("transcriptsCache" ,{});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -108,9 +109,9 @@ export default function useTranscript(videos) {
         setTranscripts((prev) => {
           const newMap = { ...prev };
           results.forEach(({ videoId, transcript }) => {
-            if (videoId) newMap[videoId] = { transcript, summary: null };
+            if (videoId) newMap[videoId] = { transcript, summary: null, fetchedAt: new Date().toISOString() };
           });
-          console.log("Hash->",newMap);
+          console.log("Hash updated->",newMap);
           return newMap;
         });
       }

@@ -3,10 +3,6 @@ import { Innertube } from 'youtubei.js/web';
 export async function POST(req) {
   try {
 
-    return Response.json(
-        { tran: 'NULL' },
-      );
-
     console.log("Request hit!");
     const { videoId } = await req.json();
     
