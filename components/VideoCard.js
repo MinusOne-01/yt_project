@@ -3,32 +3,35 @@ import { motion, AnimatePresence } from "framer-motion";
 import getSummary from "@/hooks/getSummary";
 
 
-export default function VideoCard({ id, title, author, transcript, txtloading }) {
+export default function VideoCard({ id, title, author, transcript, desc, txtloading, onSummaryGenerated }) {
   const [expanded, setExpanded] = useState(false);
   const [play, setPlay] = useState(false);
-  const [summary, setSummary] = useState('');
+  const [summary, setSummary] = useState(desc);
   const [loadingSummary, setLoadingSummary] = useState(false);
 
   const handleSummarize = async () => {
-    if (!transcript || txtloading) {
+    if(!transcript || txtloading) return;
+    if(desc != null){
+      setSummary(desc);
       return;
     }
-
-    try {
+    try{
       setLoadingSummary(true);
       const summaryText = await getSummary(transcript);
       setSummary(summaryText);
-    } catch (err) {
+      onSummaryGenerated(summaryText);
+    }
+    catch(err){
       console.error("Summary fetch failed:", err);
-      setSummary("Failed to generate summary. Please try again.");
-    } finally {
+      setSummary("Server error, try again later");
+    }
+    finally{
       setLoadingSummary(false);
     }
   };
 
   useEffect(() => {
-    if (expanded) {
-      if(summary !== '') return;
+    if(expanded){
       handleSummarize();
     }
   }, [expanded]);
@@ -70,7 +73,7 @@ export default function VideoCard({ id, title, author, transcript, txtloading })
               ) : summary ? (
                 <p>{summary}</p>
               ) : (
-                <p className="text-gray-400 italic">Summary failed to generate.</p>
+                <p className="text-gray-400 italic">just a moment...</p>
               )}
             </div>
 

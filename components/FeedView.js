@@ -5,7 +5,7 @@ import Masonry from "react-masonry-css";
 
 const FeedView = ({ videos }) => {
   
-  const { transcripts, loading } = useTranscript(videos);
+  const { transcripts, setTranscripts, loading } = useTranscript(videos);
 
   if (!videos || videos.length === 0) {
     return (
@@ -34,8 +34,17 @@ const FeedView = ({ videos }) => {
             id={video.id}
             title={video.title}
             author={video.author}
-            transcript={transcripts[video.id]}
+            transcript={transcripts[video.id]?.transcript}
+            desc={transcripts[video.id]?.summary}
             txtloading={loading}
+
+            onSummaryGenerated={(generatedDesc) => {
+              setTranscripts((prev) => {
+                const newMap = { ...prev };
+                newMap[video.id].summary = generatedDesc;
+                return newMap;
+              });
+            }}
           />
 
         ))}

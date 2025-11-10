@@ -4,8 +4,7 @@ export async function POST(req) {
   try {
 
     return Response.json(
-        { error: 'in Dev mode' },
-        { status: 404 }
+        { tran: 'NULL' },
       );
 
     console.log("Request hit!");
@@ -27,10 +26,9 @@ export async function POST(req) {
     const transcriptData = await info.getTranscript();
     
     if (!transcriptData) {
-      return Response.json(
-        { error: 'No transcript available for this video' },
-        { status: 404 }
-      );
+      return Response.json({
+        transcript:null
+      });
     }
 
     // Extract segments

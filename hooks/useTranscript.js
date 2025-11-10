@@ -18,12 +18,33 @@ export default function useTranscript(videos) {
     // function to extract videoID
     const extractVideoId = (url) => {
       try {
-        const u = new URL(url);
-        return u.searchParams.get("v");
-      } catch {
+        const idRegex = /^[a-zA-Z0-9_-]{11}$/;
+        const parsed = new URL(url);
+
+        // Case 1: Standard YouTube link like /watch?v=ID
+        const vParam = parsed.searchParams.get("v");
+        if (vParam && idRegex.test(vParam)) {
+          return vParam;
+        }
+
+        // Case 2: Shorts, embed, or /v/ style
+        const segments = parsed.pathname.split("/").filter(Boolean);
+        if (segments.length >= 2) {
+          const [first, second] = segments;
+          if (
+            (first === "shorts" || first === "embed" || first === "v") &&
+            idRegex.test(second)
+          ) {
+            return second;
+          }
+        }
+        return null;
+      } catch (err) {
+        console.warn("extractVideoId error:", err);
         return null;
       }
     };
+
     
     // Controls how many transcripts are fetched in parallel
     const fetchWithLimit = async (tasks, limit) => {
@@ -87,8 +108,9 @@ export default function useTranscript(videos) {
         setTranscripts((prev) => {
           const newMap = { ...prev };
           results.forEach(({ videoId, transcript }) => {
-            if (videoId && transcript) newMap[videoId] = transcript;
+            if (videoId) newMap[videoId] = { transcript, summary: null };
           });
+          console.log("Hash->",newMap);
           return newMap;
         });
       }
@@ -100,5 +122,5 @@ export default function useTranscript(videos) {
     fetchTranscripts();
   }, [videos]); // rerun when videos array changes
 
-  return { transcripts, loading };
+  return { transcripts, setTranscripts, loading };
 }
