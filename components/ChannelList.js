@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ChannelList = ({channels, delChannel, Image}) => {
-  console.log(channels);
+  
   return (
     <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10 mx-4">

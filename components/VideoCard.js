@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import getSummary from "@/hooks/getSummary";
+import { Noto_Sans } from "next/font/google";
+
+const headline_font = Noto_Sans({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["400"], // pick what you need
+});
 
 
 export default function VideoCard({ id, title, author, transcript, desc, txtloading, onSummaryGenerated }) {
@@ -8,6 +15,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
   const [play, setPlay] = useState(false);
   const [summary, setSummary] = useState(desc);
   const [loadingSummary, setLoadingSummary] = useState(false);
+
   
   function getStatusText() {
     if (txtloading) return "Getting the connections ready...";
@@ -15,8 +23,6 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     return "Reopen card to generate Summary";
   }
   
-
-
   const handleSummarize = async () => {
  
     if(!transcript || txtloading) return;
@@ -56,8 +62,8 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     >
       {/* Title & author */}
       <div className="text-center">
-        <p className="text-xl sm:text-2xl font-serif italic text-gray-800 mb-2">
-          “{title}”
+        <p className={`${headline_font.className} text-xl sm:text-2xl text-gray-800 mb-2`}>
+          "{title}"
         </p>
         <p className="text-sm text-gray-500">{author}</p>
       </div>

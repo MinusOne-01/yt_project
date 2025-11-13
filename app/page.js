@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF]">
+    <div>
       <div className="flex flex-col items-center justify-center min-h-screen gap-2 px-4 translate-y-[-30px]">
         <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-8 text-center">
           Tired of algorithm controlling your feed?

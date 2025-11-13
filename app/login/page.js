@@ -8,7 +8,7 @@ export default function AuthButton() {
   const router = useRouter();
 
   return session ? (
-    <div className="min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF]">
+    <div>
     <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <h1 className="text-2xl md:text-5xl font-bold
          text-white text-center drop-shadow-lg py-5">
@@ -41,7 +41,7 @@ export default function AuthButton() {
     </div>
     </div>
   ) : (
-    <div className="min-h-screen bg-gradient-to-r from-[#FF8235] to-[#30E8BF]">
+    <div>
     <div className="flex flex-col items-center justify-center min-h-screen gap-4 translate-y-[-30px]">
       <h1 className="text-2xl md:text-5xl font-bold
          text-white text-center drop-shadow-lg py-5">
@@ -52,7 +52,7 @@ export default function AuthButton() {
       <button
         onClick={() => signIn("github")}
         className="w-60 px-6 py-3 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-gray-600 to-black
+                   bg-gradient-to-r from-gray-600 to-gray-700
                    shadow-md hover:shadow-lg
                    transition-all duration-300 
                    hover:scale-105 active:scale-95
@@ -63,7 +63,7 @@ export default function AuthButton() {
 
       {/* Google dummy button */}
       <button
-        onClick={() => alert("Google login not set up yet")}
+        onClick={() => signIn("google")}
         className="w-60 px-6 py-3 rounded-xl font-semibold text-white 
                    bg-gradient-to-r from-red-400 to-pink-500
                    shadow-md hover:shadow-lg
@@ -74,18 +74,6 @@ export default function AuthButton() {
         Google
       </button>
 
-      {/* Twitter dummy button */}
-      <button
-        onClick={() => alert("Twitter login not set up yet")}
-        className="w-60 px-6 py-3 rounded-xl font-semibold text-white 
-                   bg-gradient-to-r from-sky-400 to-sky-600
-                   shadow-md hover:shadow-lg
-                   transition-all duration-300 
-                   hover:scale-105 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-sky-400"
-      >
-        Twitter
-      </button>
     </div>
     </div>
   );

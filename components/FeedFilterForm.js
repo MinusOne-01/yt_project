@@ -1,6 +1,7 @@
 import React from 'react'
 import FilterDropdown from './FilterDropdown'
 import TimeFilterDropdown from './TimeFilterDropdown'
+import UserMenu from './UserMenu'
 
 const FeedFilterForm = ({groups, extendFeed, updateFilterList}) => {
   
@@ -13,6 +14,7 @@ const FeedFilterForm = ({groups, extendFeed, updateFilterList}) => {
           <div className='flex items-center justify-center gap-4'>
             <FilterDropdown groups={groups} updateFilterList={updateFilterList}/>
             <TimeFilterDropdown extendFeed={extendFeed} />
+            <UserMenu/>
           </div>
         </div> 
     </div>

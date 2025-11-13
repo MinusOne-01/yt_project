@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const GroupSelectForm = ({ groups, updateFilterList, setGroupSelectorView }) => {
+const GroupSelectForm = ({ groups, updateFilterList, setGroupSelectorView, groupsloading }) => {
 
   const [selectedGroups, setSelectedGroups] = useState([]);
 
@@ -24,7 +24,7 @@ const GroupSelectForm = ({ groups, updateFilterList, setGroupSelectorView }) => 
         <h5 className="text-4xl md:text-3xl lg:text-5xl font-bold text-white mb-6 text-center">
             What do you want to watch?
         </h5>
-              <div className="container mx-auto px-4 py-5">
+              <div className={`container mx-auto px-15 py-5 transition-all duration-500 ${groupsloading ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
                       {groups.map((group) => (
                         <div

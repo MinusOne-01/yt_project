@@ -46,7 +46,7 @@ export default function useChannels(){
         getAllch();
     },[])
 
-    return {channels, error, addChannel, delChannel, refetch: getAllch};
+    return {channels, loading, error, addChannel, delChannel, refetch: getAllch};
 
 
 }

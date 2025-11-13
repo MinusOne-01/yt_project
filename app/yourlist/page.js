@@ -19,7 +19,7 @@ import GroupEditForm from '@/components/GroupEditForm';
 
 const page = () => {
     
-    const { channels, error, addChannel, delChannel } = useChannels();
+    const { channels, loading, error, addChannel, delChannel } = useChannels();
     const { groups, createGroup, delGroup, addToGroup, delfromGroup } = useGroups();
 
     const [link, setLink] = useState('');
@@ -39,25 +39,27 @@ const page = () => {
         <ToggleView groupView={groupView} setGroupView={setGroupView}/>
       </div>
 
-      {/* Scrollable content area with relative positioning */}
+      {/* Scrollable content area */}
       <div className="flex-1 overflow-y-auto scrollbar-hide relative">
         
-        {/* Display channels - positioned absolutely */}      
+        {/* Channels section */}      
         <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
           groupView === "off" ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
         }`}>
           <div className="pb-120">
+            <div className={`transition-all duration-500 ${loading ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
             <ChannelList channels={channels} delChannel={delChannel} Image={Image}/>
+            </div>
             <ChannelForm link={link} setLink={setLink} addChannel={addChannel} router={router}/>
           </div>
         </div>
         
-        {/* Display groups - positioned absolutely */}
+        {/* Groups section */}
         <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
           groupView === "on" ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
         }`}>
             
-            {/* Display Group folders */}
+            {/* Display channels in Group folder */}
             <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
               groupChannelView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}>  

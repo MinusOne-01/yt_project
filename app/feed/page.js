@@ -30,8 +30,7 @@ export default function Feed() {
   <div>
     <div className='h-screen flex flex-col overflow-y-auto scrollbar-hide'>
       {groupSelectorView ? (
-        <GroupSelectForm groups={groups} updateFilterList={updateFilterList} setGroupSelectorView={setGroupSelectorView}
-        />
+        <GroupSelectForm groups={groups} updateFilterList={updateFilterList} setGroupSelectorView={setGroupSelectorView} groupsloading={groupsloading}/>
       ) : (
         <>
           {/* Loading screen */}
