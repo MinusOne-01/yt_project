@@ -125,9 +125,10 @@ export default function useTranscript(videos) {
     fetchTranscripts();
   }, [videos]); // rerun when videos array changes
   
-  // check for cache cleanup
+  
+  // cleanups cache on mount
   useEffect(() => {
-    const lastCleanup = localStorage.getItem("transcriptCacheLastCleanup");
+    const lastCleanup = localStorage.getItem(LAST_CLEANUP_KEY);
     const now = Date.now();
     const last = lastCleanup ? new Date(lastCleanup).getTime() : 0;
     const diffDays = (now - last) / (1000 * 60 * 60 * 24);
@@ -135,8 +136,8 @@ export default function useTranscript(videos) {
     // cleanup only after every 15 days or so
     if (diffDays >= 15) {
       console.log("🧹 Auto cleaning old transcripts...");
-      setTranscripts((prev) => purgeOldEntries(prev, 20));
-      localStorage.setItem("transcriptCacheLastCleanup", new Date().toISOString());
+      setTranscripts((prev) => purgeOldEntries(prev, 15));
+      localStorage.setItem(LAST_CLEANUP_KEY, new Date().toISOString());
     }
   }, []);
 

@@ -12,8 +12,7 @@ export async function POST(req) {
       location: 'US',
       retrieve_player: false,
     });
-
-    console.log("Fetching info for:", videoId);
+    
     
     // Get video info
     const info = await yt.getInfo(videoId);

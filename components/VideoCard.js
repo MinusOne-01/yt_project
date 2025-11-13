@@ -14,6 +14,8 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     if (!transcript) return "Summary cannot be generated for this video";
     return "Reopen card to generate Summary";
   }
+  
+
 
   const handleSummarize = async () => {
  
@@ -47,7 +49,10 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     <div
       className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-md p-6 cursor-pointer 
                  transition-all duration-300 hover:shadow-xl"
-      onClick={() => setExpanded((prev) => !prev)}
+      onClick={() =>{
+        setExpanded((prev) => !prev);
+        setPlay(false);
+      }}
     >
       {/* Title & author */}
       <div className="text-center">
@@ -68,7 +73,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
             className="overflow-hidden"
             onClick={(e) => e.stopPropagation()} // prevent re-collapse
           >
-            <div className="text-gray-600 text-sm mb-4 leading-relaxed">
+            <div className="text-gray-600 text-sm mb-4 leading-relaxed pt-2">
               {(loadingSummary) ? (
                 // shimmer loading effect
                 <div className="animate-pulse space-y-2">

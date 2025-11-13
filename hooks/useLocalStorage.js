@@ -14,7 +14,14 @@ export default function useLocalStorage(key, initialValue) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (err) {
-      console.warn("Failed to save to localStorage:", err);
+        if(err.name === "QuotaExceededError"){
+            console.warn("localStorage full clearing old cache...");
+            const cleaned = purgeOldEntries(value, 5);
+            localStorage.setItem(key, JSON.stringify(cleaned));
+        }
+        else{
+            console.error("Failed to save to localStorage:", err);
+        }
     }
   }, [key, value]);
 

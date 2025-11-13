@@ -4,7 +4,6 @@ const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req) {
   try {
-    console.log("AI api call hit");
     const { transcript } = await req.json();
 
     if (!transcript) {
@@ -28,9 +27,9 @@ export async function POST(req) {
     });
 
     const summary = completion.choices[0].message.content.trim();
-    console.log(summary);
     return Response.json({ summary });
-  } catch (err) {
+  }
+  catch(err){
     console.error("Summary API error:", err);
     return Response.json({ error: "Failed to summarize" }, { status: 500 });
   }
