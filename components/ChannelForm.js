@@ -3,16 +3,16 @@ import React from 'react'
 const ChannelForm = ({ link, setLink, addChannel, router }) => {
   return (
     <div className='
-      fixed bottom-0 w-full p-6 
+      fixed bottom-0 w-full px-5 md:p-6 
   bg-gray-900/95 backdrop-blur-sm
   border-t border-white/10
   shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)]
     '>
         
         <div className='flex flex-col items-center justify-center'>
-        <h1 className='text-4xl md:text-5xl font-bold
+        <h1 className='text-xl md:text-5xl font-bold
          text-white text-center drop-shadow-lg py-5'>
-        Enter channel link here</h1>
+        Add a New Channel</h1>
 
         <input
         type="url"
@@ -20,14 +20,14 @@ const ChannelForm = ({ link, setLink, addChannel, router }) => {
                   bg-gradient-to-r from-gray-800 to-gray-700 text-white placeholder-gray-400
                   focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-gray-900
                   transition-all duration-300 ease-in-out"
-        placeholder="Enter your channel link..."
+        placeholder="Enter any video url here..."
         value={link}
         onChange={(e) => setLink(e.target.value)}
         />
 
         <div className='flex items-center justify-center gap-4'>
         <button
-            className='px-11 py-3 mb-5 rounded-xl font-semibold text-white 
+            className='px-8 md:px-11 py-3 mb-5 rounded-xl font-semibold text-white 
                       bg-gray-600 
                       hover:bg-gray-700
                       shadow-lg hover:shadow-xl 
@@ -45,7 +45,7 @@ const ChannelForm = ({ link, setLink, addChannel, router }) => {
         }}
         >Submit</button>
         <button
-        className='px-11 py-3 mb-5 rounded-xl font-semibold text-white 
+        className='px-6 md:px-11 py-3 mb-5 rounded-xl font-semibold text-white 
                   bg-gray-600 
                   hover:bg-gray-700
                   shadow-lg hover:shadow-xl 

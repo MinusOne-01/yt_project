@@ -32,6 +32,16 @@ export async function POST(res){
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
+        let user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+        });
+
+        if (!user) {
+            user = await prisma.user.create({
+                data: { email: session.user.email },
+            });
+        }
+
         const { gname } = await res.json();
 
         const group_data = await prisma.group.create({

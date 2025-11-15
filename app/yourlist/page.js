@@ -25,9 +25,10 @@ const page = () => {
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
     const [groupFolderId, setGroupFolderId] = useState('');
-    const [groupEditView, setGroupEditView] = useState("off");
-    const [groupView, setGroupView] = useState("off");
-    const [groupChannelView, setGroupChannelView] = useState("off");
+    const [groupEditView, setGroupEditView] = useState(false);
+    const [groupView, setGroupView] = useState(false);
+    const [groupChannelView, setGroupChannelView] = useState(false);
+
     const router = useRouter();
 
   return (
@@ -44,7 +45,7 @@ const page = () => {
         
         {/* Channels section */}      
         <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-          groupView === "off" ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+          !groupView ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
         }`}>
           <div className="pb-120">
             <div className={`transition-all duration-500 ${loading ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
@@ -56,12 +57,12 @@ const page = () => {
         
         {/* Groups section */}
         <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-          groupView === "on" ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+          groupView ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
         }`}>
             
-            {/* Display channels in Group folder */}
+            {/* Display all Groups */}
             <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-              groupChannelView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
+              !groupChannelView ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}>  
               <div className="pb-120">
               <GroupList groups={groups} delGroup={delGroup} setGroupChannelView={setGroupChannelView} setGroupFolderId={setGroupFolderId}/>  
@@ -71,10 +72,10 @@ const page = () => {
 
             {/* Display Channels inside Group folders */}
             <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-              groupChannelView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
+              groupChannelView ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}>
               <div className={`transition-opacity duration-700 ease-in-out ${
-                groupEditView === "off" ? "opacity-100" : "opacity-0 pointer-events-none"
+                !groupEditView ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}>
                 <div className="pb-120">
                 <GroupChannelList groups={groups} groupFolderId={groupFolderId} channels={channels} setGroupChannelView={setGroupChannelView} setGroupEditView={setGroupEditView} Image={Image} />
@@ -83,7 +84,7 @@ const page = () => {
               
               {/* Display group folder edit form */}
               <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-                groupEditView === "on" ? "opacity-100" : "opacity-0 pointer-events-none"
+                groupEditView ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}>
                 <div className="pb-120">
                 <GroupEditForm groups={groups} groupFolderId={groupFolderId} channels={channels} addToGroup={addToGroup} delfromGroup={delfromGroup} setGroupEditView={setGroupEditView} Image={Image}/>

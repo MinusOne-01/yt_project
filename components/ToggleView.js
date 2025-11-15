@@ -12,21 +12,21 @@ const ToggleView = ({ groupView, setGroupView }) => {
         <div
           className={`absolute top-1 bottom-1 w-1/2 rounded-xl bg-white/20 backdrop-blur-md transition-all duration-300`}
           style={{
-            left: groupView === "off" ? "0.25rem" : "50%",
+            left: !groupView ? "0.25rem" : "50%",
           }}
         />
         <button
-          onClick={() => setGroupView("off")}
+          onClick={() => setGroupView(false)}
           className={`relative z-10 flex-1 px-4 py-2 text-sm font-semibold rounded-xl transition-colors ${
-            groupView === "off" ? "text-white" : "text-white/70"
+            groupView ? "text-white" : "text-white/70"
           }`}
         >
           All channels
         </button>
         <button
-          onClick={() => setGroupView("on")}
+          onClick={() => setGroupView(true)}
           className={`relative z-10 flex-1 px-4 py-2 text-sm font-semibold rounded-xl transition-colors ${
-            groupView === "on" ? "text-white" : "text-white/70"
+            groupView ? "text-white" : "text-white/70"
           }`}
         >
           Groups

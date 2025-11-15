@@ -2,6 +2,18 @@ import React from 'react'
 
 const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderId }) => {
 
+  if(groups.length == 0){
+     return(
+       <div className="container mx-auto px-4 py-5">
+         <p className="text-base sm:text-lg md:text-xl text-gray-500 leading-relaxed text-center px-4">
+           Create groups and organize your channels the way you like
+           <br className="hidden sm:block" />
+           You can edit them anytime, add/delete channels to keep things organized
+         </p>
+       </div>
+     )
+  }
+
   return (
     <div className="container mx-auto px-15 py-5">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
@@ -15,7 +27,7 @@ const GroupList = ({ groups, delGroup, setGroupChannelView, setGroupFolderId }) 
                  hover:shadow-xl"
                           onClick={() => {
                             setGroupFolderId(group.id)
-                            setGroupChannelView("on")
+                            setGroupChannelView(true)
                           }}
                       >
                         <button

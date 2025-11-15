@@ -98,7 +98,7 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
                       transition-all duration-200 
                       hover:scale-[1.02] active:scale-95
                       focus:outline-none focus:ring-2 focus:ring-white/50'
-        onClick={() => setGroupEditView("off")}
+        onClick={() => setGroupEditView(false)}
         >Done
         </button>
         </div>

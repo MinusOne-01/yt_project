@@ -2,6 +2,18 @@ import React from 'react'
 
 const ChannelList = ({channels, delChannel, Image}) => {
   
+  if(channels.length == 0){
+     return(
+       <div className="container mx-auto px-4 py-5">
+         <p className="text-base sm:text-lg md:text-xl text-gray-500 leading-relaxed text-center">
+           Your channels will appear here
+           <br className="hidden sm:block" />
+           To add one, enter any video link from that channel and click "Submit"
+         </p>
+       </div>
+     )
+  }
+
   return (
     <div className="container mx-auto px-4 py-5">
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10 mx-4">
