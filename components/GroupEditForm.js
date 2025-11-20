@@ -18,7 +18,7 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
 
           <h5 className="text-4xl md:text-3xl lg:text-5xl font-bold text-white mb-6 text-center">
               Channels in <span className="text-white">{currentGroup.name}</span>
-              <span className="block text-xl md:text-lg lg:text-2xl font-medium text-gray-200 mt-2">
+              <span className="block text-base md:text-lg lg:text-2xl font-medium text-gray-400 mt-1">
                   (Click to remove)
               </span>
           </h5>
@@ -51,7 +51,7 @@ const GroupEditForm = ({ groups, groupFolderId, channels, addToGroup, delfromGro
 
               <h5 className="text-4xl md:text-3xl lg:text-5xl font-bold text-white mb-6 text-center">
               Other Channels
-              <span className="block text-xl md:text-lg lg:text-2xl font-medium text-gray-200 mt-2">
+              <span className="block text-base md:text-lg lg:text-2xl font-medium text-gray-400 mt-1">
                   (Click to Add)
               </span>
           </h5>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function TimeFilterDropdown({ extendFeed }) {
+function TimeFilterDropdown({ extendFeed, parentIsOpen, onToggle  }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -15,13 +15,17 @@ function TimeFilterDropdown({ extendFeed }) {
     if (selected !== null) {
       extendFeed(selected);
     }
-    setIsOpen(false);
+    onToggle();
   };
 
   useEffect(() => {
           setSelected(2);
-          handleSave();
-    }, []);
+          extendFeed(2);
+  }, []);
+
+  useEffect(() => {
+        setIsOpen(parentIsOpen);
+  }, [parentIsOpen]);  
 
   return (
     <div className="relative inline-block">
@@ -31,10 +35,10 @@ function TimeFilterDropdown({ extendFeed }) {
           if (isOpen) {
             handleSave();
           } else {
-            setIsOpen(true);
+            onToggle();
           }
         }}
-        className="px-11 py-3 rounded font-semibold text-white 
+        className="px-11 md:py-3 rounded font-semibold text-white 
                       bg-gray-600 
                       hover:bg-gray-700
                       shadow-lg hover:shadow-xl 
@@ -50,7 +54,7 @@ function TimeFilterDropdown({ extendFeed }) {
 
       {/* Dropdown */}
   <div
-    className={`absolute bottom-full mb-3 w-52 
+    className={`absolute bottom-full mb-3 w-40 
                bg-gray-800 backdrop-blur-md 
                rounded shadow-lg overflow-hidden 
                border border-gray-700/40 z-10

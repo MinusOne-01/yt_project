@@ -10,7 +10,7 @@ const FeedView = ({ videos }) => {
   if (!videos || videos.length === 0) {
     return (
       <div className="text-center text-gray-500 py-20">
-        No videos to display
+        No videos available <p>Try changing selected group or time</p>
       </div>
     );
   }
@@ -22,7 +22,7 @@ const FeedView = ({ videos }) => {
   };
 
   return (
-    <div className="py-6 pb-70 flex justify-center overflow-y-auto scrollbar-hide">
+    <div className="px-8 py-6 pb-70 flex justify-center overflow-y-auto scrollbar-hide">
       <Masonry
         breakpointCols={breakpointColumns}
         className="flex gap-10"

@@ -10,20 +10,24 @@ const GroupChannelList = ({ groups, groupFolderId, channels, setGroupChannelView
   const channelIds = new Set(currentGroup.links?.map(link => link.channelId) || []);
   const channelsInGroup = channels.filter(ch => channelIds.has(ch.channelId));
   
-  const [guideBox, setGuideBox] = useState(false);
-  useEffect(() => {
-     if(channelsInGroup.length == 0){
-     setGuideBox(true);
-    }
-  }, [channelsInGroup])
+  const emptyFolder = channelsInGroup.length === 0;
   
   return (
     <div>
 
-    <div className="container mx-auto px-4 py-5">
-        <h5 className="text-4xl md:text-3xl lg:text-5xl font-bold text-white mb-8 text-center">
-          {guideBox ? "" : currentGroup.name}
-        </h5>
+    <div className="container mx-auto px-4 py-2">
+        <div>
+            {!emptyFolder ? (
+              <div className="text-3xl lg:text-5xl font-bold text-white mb-8 text-center">
+                 {currentGroup.name}
+              </div>
+            ) : (
+              <div className="text-3xl lg:text-5xl font-bold text-white mb-8 text-center">
+                 {currentGroup.name}
+                    <div className="text-base md:text-xl font-normal text-gray-500 mb-8 text-center pt-4"> Click on edit to add channels in this group </div>
+              </div>
+            )}
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10 mx-4">
                   {channelsInGroup.map((channel, index) => (
                       <div
@@ -47,14 +51,13 @@ const GroupChannelList = ({ groups, groupFolderId, channels, setGroupChannelView
                           </h2>
                      </div>
                   ))}
-              </div>
+        </div>
     </div>
     
-    <div className='
-      fixed bottom-0 w-full p-6 md:p-11 
-  bg-gray-900/95 backdrop-blur-sm
-  border-t border-white/10
-  shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)]  
+    <div className='fixed bottom-0 w-full p-6 md:p-11 
+                  bg-gray-900/95 backdrop-blur-sm
+                  border-t border-white/10
+                  shadow-[0_-4px_24px_0_rgba(0,0,0,0.5)]  
     '>  
         <div className='flex items-center justify-center gap-4'>   
         <button

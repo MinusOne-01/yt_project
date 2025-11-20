@@ -53,8 +53,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
 
   return (
     <div
-      className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-md p-6 cursor-pointer 
-                 transition-all duration-300 hover:shadow-xl"
+      className="w-full max-w-md min-w-0 bg-white rounded-2xl shadow-md cursor-pointer px-5 py-4 md:px-10 md:py-6"
       onClick={() =>{
         setExpanded((prev) => !prev);
         setPlay(false);
@@ -62,10 +61,10 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     >
       {/* Title & author */}
       <div className="text-center">
-        <p className={`${headline_font.className} text-xl sm:text-2xl text-gray-800 mb-2`}>
+        <p className={`${headline_font.className} text-xm md:text-2xl text-gray-800 mb-2 px-5 md:px-10`}>
           "{title}"
         </p>
-        <p className="text-sm text-gray-500">{author}</p>
+        <p className="text-xs text-gray-500">{author}</p>
       </div>
 
       {/* Expandable section */}
@@ -79,7 +78,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
             className="overflow-hidden"
             onClick={(e) => e.stopPropagation()} // prevent re-collapse
           >
-            <div className="text-gray-600 text-sm mb-4 leading-relaxed pt-2">
+            <div className="text-gray-600 text-xs md:text-[14px] leading-relaxed py-3">
               {(loadingSummary) ? (
                 // shimmer loading effect
                 <div className="animate-pulse space-y-2">
@@ -88,7 +87,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
                   <div className="h-3 bg-gray-300 rounded w-8/12"></div>
                 </div>
               ) : summary ? (
-                <p>{summary}</p>
+                <p className="whitespace-pre-line text-wrap-balance">{summary}</p>
               ) : (
                 <p className="text-gray-400 italic">{getStatusText()}</p>
               )}
@@ -110,6 +109,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
                   title={title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             )}

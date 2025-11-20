@@ -16,7 +16,6 @@ import GroupChannelList from '@/components/GroupChannelList';
 import GroupForm from '@/components/GroupForm';
 import GroupEditForm from '@/components/GroupEditForm';
 
-
 const page = () => {
     
     const { channels, loading, error, addChannel, delChannel } = useChannels();
@@ -25,9 +24,10 @@ const page = () => {
     const [link, setLink] = useState('');
     const [groupName, setGroupName] = useState('');
     const [groupFolderId, setGroupFolderId] = useState('');
-    const [groupEditView, setGroupEditView] = useState(false);
+    
     const [groupView, setGroupView] = useState(false);
     const [groupChannelView, setGroupChannelView] = useState(false);
+    const [groupEditView, setGroupEditView] = useState(false);
 
     const router = useRouter();
 
@@ -44,55 +44,37 @@ const page = () => {
       <div className="flex-1 overflow-y-auto scrollbar-hide relative">
         
         {/* Channels section */}      
-        <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-          !groupView ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+        <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out pb-100
+                   ${ !groupView ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
         }`}>
-          <div className="pb-120">
             <div className={`transition-all duration-500 ${loading ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
             <ChannelList channels={channels} delChannel={delChannel} Image={Image}/>
             </div>
             <ChannelForm link={link} setLink={setLink} addChannel={addChannel} router={router}/>
-          </div>
         </div>
-        
-        {/* Groups section */}
-        <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-          groupView ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
-        }`}>
-            
-            {/* Display all Groups */}
-            <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-              !groupChannelView ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}>  
-              <div className="pb-120">
-              <GroupList groups={groups} delGroup={delGroup} setGroupChannelView={setGroupChannelView} setGroupFolderId={setGroupFolderId}/>  
-              <GroupForm groupName={groupName} setGroupName={setGroupName} createGroup={createGroup} router={router}/>
-              </div>
-            </div>
 
-            {/* Display Channels inside Group folders */}
-            <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-              groupChannelView ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}>
-              <div className={`transition-opacity duration-700 ease-in-out ${
-                !groupEditView ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}>
-                <div className="pb-120">
-                <GroupChannelList groups={groups} groupFolderId={groupFolderId} channels={channels} setGroupChannelView={setGroupChannelView} setGroupEditView={setGroupEditView} Image={Image} />
-                </div>
-              </div>
+        {/* Groups section */}
+          <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out pb-100
+                      ${ (groupView && !groupChannelView && !groupEditView) ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+          }`}>
+            <GroupList groups={groups} delGroup={delGroup} setGroupChannelView={setGroupChannelView} setGroupFolderId={setGroupFolderId} />
+            <GroupForm groupName={groupName} setGroupName={setGroupName} createGroup={createGroup} router={router} />
+          </div>      
+      
+        {/* Display Channels inside Group folders */}
+          <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out pb-100
+                     ${ (groupView && groupChannelView && !groupEditView) ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}>
+            <GroupChannelList groups={groups} groupFolderId={groupFolderId} channels={channels} setGroupChannelView={setGroupChannelView} setGroupEditView={setGroupEditView} Image={Image} />
+          </div>
               
-              {/* Display group folder edit form */}
-              <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out ${
-                groupEditView ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}>
-                <div className="pb-120">
-                <GroupEditForm groups={groups} groupFolderId={groupFolderId} channels={channels} addToGroup={addToGroup} delfromGroup={delfromGroup} setGroupEditView={setGroupEditView} Image={Image}/>
-                </div>
-              </div>
-            </div>
-        </div>
-        
+        {/* Display group folder edit form */}
+          <div className={`absolute inset-0 overflow-y-auto scrollbar-hide pt-25 transition-opacity duration-700 ease-in-out pb-100
+                      ${ (groupView && groupChannelView && groupEditView) ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}>
+            <GroupEditForm groups={groups} groupFolderId={groupFolderId} channels={channels} addToGroup={addToGroup} delfromGroup={delfromGroup} setGroupEditView={setGroupEditView} Image={Image}/>
+          </div>
+            
       </div>
     </div>
   </>

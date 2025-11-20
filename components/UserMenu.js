@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-export default function UserMenu(){
+export default function UserMenu({ parentIsOpen, onToggle }){
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   
 
   const handleDashboard = () => {
     router.push("/yourlist");
-    setIsOpen(false);
+    onToggle();
   };
 
   const handleLogout = () => {
@@ -17,16 +17,20 @@ export default function UserMenu(){
     if (confirmLogout) {
       signOut();
     }
-    setIsOpen(false);
+    onToggle();
   }
+
+  useEffect(() => {
+      setIsOpen(parentIsOpen);
+  }, [parentIsOpen]);
 
 
   return (
     <div className="relative inline-block">
       {/* Button */}
       <button
-        onClick={() => { setIsOpen(!isOpen) }}
-        className="px-8 py-3 rounded font-semibold text-white 
+        onClick={() => { onToggle() }}
+        className="px-5 md:px-8 py-3 rounded font-semibold text-white 
                       bg-gray-600 
                       hover:bg-gray-700
                       shadow-lg hover:shadow-xl 
@@ -45,10 +49,10 @@ export default function UserMenu(){
       </button>
 
   {/* Dropdown */}
-  <div className={`absolute bottom-full mb-3 w-52 
+  <div className={`absolute bottom-full mb-3 w-30 
                 bg-gray-800 backdrop-blur-md 
-                rounded shadow-lg overflow-hidden 
-                border border-gray-700/40 z-10
+                rounded shadow-lg overflow-hidden
+                border border-gray-700/40 z-10 right-0
                 transform origin-bottom transition-all duration-200
                 ${isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"}`}
   >

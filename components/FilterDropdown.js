@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function FilterDropdown({ groups, updateFilterList }) {
+function FilterDropdown({ groups, updateFilterList, parentIsOpen, onToggle }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGroups, setSelectedGroups] = useState([]);
+  const noGroups = groups.length === 0;
 
   const toggleSelection = (group) => {
     setSelectedGroups((prev) => {
@@ -14,10 +15,14 @@ function FilterDropdown({ groups, updateFilterList }) {
     });
   };
 
-    const handleSave = () => {
-        updateFilterList(selectedGroups);
-        setIsOpen(false);
-    };
+  const handleSave = () => {
+      updateFilterList(selectedGroups);
+      onToggle();
+  };
+
+  useEffect(() => {
+    setIsOpen(parentIsOpen);
+  }, [parentIsOpen]);
 
   return (
     <div className="relative inline-block">
@@ -27,10 +32,10 @@ function FilterDropdown({ groups, updateFilterList }) {
           if (isOpen) {
             handleSave();
           } else {
-            setIsOpen(true);
+            onToggle();
           }
         }}
-        className="px-11 py-3 rounded font-semibold text-white 
+        className="px-11 md:py-3 rounded font-semibold text-white 
                       bg-gray-600 
                       hover:bg-gray-700
                       shadow-lg hover:shadow-xl 
@@ -63,6 +68,7 @@ function FilterDropdown({ groups, updateFilterList }) {
             {group.name}
           </div>
         ))}
+        {noGroups && <div className="px-4 py-2 text-white/70">Group list is empty</div>}
       </div>
     </div>
   );
