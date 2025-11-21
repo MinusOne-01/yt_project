@@ -113,7 +113,6 @@ export default function useTranscript(videos) {
           results.forEach(({ videoId, transcript }) => {
             if (videoId) newMap[videoId] = { transcript, summary: null, fetchedAt: new Date().toISOString() };
           });
-          console.log("Hash updated->",newMap);
           return newMap;
         });
       }
@@ -133,8 +132,8 @@ export default function useTranscript(videos) {
     const last = lastCleanup ? new Date(lastCleanup).getTime() : 0;
     const diffDays = (now - last) / (1000 * 60 * 60 * 24);
     
-    // cleanup only after every 15 days or so
-    if (diffDays >= 15) {
+    // cleanup only after every 30 days or so
+    if (diffDays >= 30) {
       console.log("🧹 Auto cleaning old transcripts...");
       setTranscripts((prev) => purgeOldEntries(prev, 15));
       localStorage.setItem(LAST_CLEANUP_KEY, new Date().toISOString());

@@ -43,7 +43,6 @@ const FeedView = ({ videos }) => {
                 const newMap = { ...prev };
                 newMap[video.id].summary = generatedDesc;
                 newMap[video.id].fetchedAt = new Date().toISOString();
-                console.log("Hash summary updated->", newMap[video.id]);
                 return newMap;
               });
             }}
