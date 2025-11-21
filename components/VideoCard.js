@@ -48,6 +48,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
     if(expanded){
       handleSummarize();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
 
 
@@ -62,7 +63,7 @@ export default function VideoCard({ id, title, author, transcript, desc, txtload
       {/* Title & author */}
       <div className="text-center">
         <p className={`${headline_font.className} text-xm md:text-2xl text-gray-800 mb-2 px-5 md:px-10`}>
-          "{title}"
+          &quot;{title}&quot;
         </p>
         <p className="text-xs text-gray-500">{author}</p>
       </div>

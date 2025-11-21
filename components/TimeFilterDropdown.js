@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function TimeFilterDropdown({ extendFeed, parentIsOpen, onToggle  }) {
+function TimeFilterDropdown({ extendFeed, parentIsOpen, onToggle }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -21,6 +21,7 @@ function TimeFilterDropdown({ extendFeed, parentIsOpen, onToggle  }) {
   useEffect(() => {
           setSelected(2);
           extendFeed(2);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

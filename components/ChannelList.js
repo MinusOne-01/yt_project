@@ -9,7 +9,7 @@ const ChannelList = ({channels, delChannel, Image}) => {
            Your channels will appear here
          </p>
          <p className="text-base md:text-xl text-gray-500 leading-relaxed text-center">
-          To add one, enter any video link from that channel and click "Submit"
+          To add one, enter any video link from that channel and click &quot;Submit&quot;
         </p>
        </div>
      )
