@@ -18,6 +18,8 @@ export async function GET(req) {
       where: { email: session.user.email },
       select: { links: { select: { channelId: true } } }
     });
+
+    if(links === 0) return;
     const channelIds = user.links.map(link => link.channelId);
 
     if (!channelIds || channelIds.length === 0) {
