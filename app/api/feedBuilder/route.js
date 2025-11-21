@@ -19,7 +19,7 @@ export async function GET(req) {
       select: { links: { select: { channelId: true } } }
     });
 
-    if(user.links === 0) return;
+    if (!user || !user.links) return;
     const channelIds = user.links.map(link => link.channelId);
 
     if (!channelIds || channelIds.length === 0) {
