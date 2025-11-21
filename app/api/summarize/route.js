@@ -11,7 +11,7 @@ export async function POST(req) {
     }
 
     const prompt = `
-      Summarize the following video transcript in 2–3 short linesin english,
+      Summarize the following in 2–3 short lines in english,
       focusing on the main idea only:
       ---
       ${transcript}

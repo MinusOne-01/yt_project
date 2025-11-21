@@ -6,7 +6,7 @@ import { Noto_Sans } from "next/font/google";
 const headline_font = Noto_Sans({
   subsets: ["latin"],
   style: ["italic"],
-  weight: ["400"], // pick what you need
+  weight: ["400"],
 });
 
 
