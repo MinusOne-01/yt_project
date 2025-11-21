@@ -16,7 +16,7 @@ import GroupChannelList from '@/components/GroupChannelList';
 import GroupForm from '@/components/GroupForm';
 import GroupEditForm from '@/components/GroupEditForm';
 
-const page = () => {
+export default function Page() {
     
     const { channels, loading, error, addChannel, delChannel } = useChannels();
     const { groups, createGroup, delGroup, addToGroup, delfromGroup } = useGroups();
@@ -81,4 +81,3 @@ const page = () => {
 )
 }
 
-export default page
