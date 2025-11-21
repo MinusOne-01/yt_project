@@ -19,7 +19,7 @@ export async function GET(req) {
       select: { links: { select: { channelId: true } } }
     });
 
-    if (!user || !user.links) return NextResponse.json({ videos: {} });
+    if (!user || !user.links) return NextResponse.json({ videos: [] });
     const channelIds = user.links.map(link => link.channelId);
 
     if (!channelIds || channelIds.length === 0) {
