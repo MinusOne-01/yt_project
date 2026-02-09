@@ -4,6 +4,8 @@ A web application that lets users build a **personalized YouTube feed** by curat
 
 Users organize channels into groups, filter by time range, and optionally generate AI-assisted video summaries.
 
+![Snaps](public/SS.png)
+
 ---
 
 ## 🔧 Tech Stack
